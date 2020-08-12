@@ -1,2 +1,6 @@
-org\example\MyUI.class
-org\example\MyUI$MyUIServlet.class
+org\bonn\se\services\util\Views.class
+org\bonn\se\gui\ui\MyUI.class
+org\bonn\se\gui\component\RegistrationPasswordField.class
+org\bonn\se\gui\ui\MyUI$MyUIServlet.class
+org\bonn\se\gui\component\RegistrationTextField.class
+org\bonn\se\gui\views\Register.class
