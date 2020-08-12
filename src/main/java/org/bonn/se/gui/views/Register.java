@@ -1,16 +1,19 @@
 package org.bonn.se.gui.views;
 
 
+import com.vaadin.data.Binder;
+import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.VaadinService;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.bonn.se.gui.component.RegistrationPasswordField;
 import org.bonn.se.gui.component.RegistrationTextField;
-
-
+import org.bonn.se.model.objects.entitites.User;
 
 
 public class Register extends VerticalLayout implements View {
@@ -30,15 +33,22 @@ public class Register extends VerticalLayout implements View {
 
         Label lPatzhalter = new Label("&nbsp", ContentMode.HTML);
 
+
+//Textfeld vorname
+        RegistrationTextField vorname = new RegistrationTextField("Vorname");
+        vorname.selectAll();
+        vorname.setValue(VaadinService.getCurrent().getBaseDirectory().toString());
+ //Textfield nachname
+        RegistrationTextField nachname = new RegistrationTextField( "Nachname");
+        nachname.setValue(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath());
+
 //Textfeld Login
-        RegistrationTextField userLogin = new RegistrationTextField("E-Mail");
-        userLogin.setWidth("310px");
-        userLogin.selectAll();
+        RegistrationTextField email = new RegistrationTextField("E-Mail");
+        email.selectAll();
 
 
 //Textfelt Passwort
-        RegistrationPasswordField passwordField = new RegistrationPasswordField ("Passwort");
-        passwordField.setWidth("310px");
+        RegistrationPasswordField password = new RegistrationPasswordField ("Passwort");
 
 
         GridLayout mainGrid = new GridLayout(1, 5);
@@ -53,9 +63,33 @@ public class Register extends VerticalLayout implements View {
 
 
 
+        layout.addComponent(vorname);
+        layout.addComponent(nachname);
+        layout.addComponent(email);
+        layout.addComponent(password);
+//binder
+        Binder<User> binder = new Binder<>(User.class);
 
-        layout.addComponent(userLogin);
-        layout.addComponent(passwordField);
+        binder.forField(vorname)
+                .asRequired("Vorname muss angegeben werden!")
+                .bind(User::getVorname,User::setVorname);
+
+        binder.forField(nachname)
+                .asRequired("Nachname muss angegeben werden!")
+                .bind(User::getNachname,User::setNachname);
+        binder.forField(email)
+                .asRequired("E-Mail muss angegeben werden")
+                .withValidator(new EmailValidator("Keine gültige E-Mail Adresse!"))
+                .bind(User::getEmail,User::setEmail);
+        binder.forField(password)
+                .asRequired("Bitte Passwort eingeben!")
+                .withValidator(new StringLengthValidator(
+                        "Passwort muss mindestens 8 Zeichen lang sein", 8, null))
+                .bind(User::getPasswort,User::setPasswort);
+
+        User user = new User();
+
+        binder.setBean(user);
 
 //Platzhalter
         Label label = new Label ( "&nbsp;", ContentMode.HTML);
@@ -65,7 +99,7 @@ public class Register extends VerticalLayout implements View {
 
 //Button zum Login + Symbol auf Button
 
-        Button buttonLogin = new Button("Login", VaadinIcons.SEARCH);
+        Button buttonLogin = new Button("Login");
         buttonLogin.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         layout.addComponent(buttonLogin);
@@ -86,8 +120,8 @@ public class Register extends VerticalLayout implements View {
 
 
         buttonLogin.addClickListener((Button.ClickListener) clickEvent -> {
-            String login = userLogin.getValue();
-            String password = passwordField.getValue();
+            String sLogin = email.getValue();
+            String sPassword = password.getValue();
 
         });
 
