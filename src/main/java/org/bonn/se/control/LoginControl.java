@@ -1,16 +1,17 @@
-package org.bonn.se.control.exception;
+package org.bonn.se.control;
 
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
+import org.bonn.se.control.NoSuchUserOrPassword;
 import org.bonn.se.gui.ui.MyUI;
-import org.bonn.se.model.objects.entitites.Endkunde;
+import org.bonn.se.model.objects.entitites.Kunde;
 import org.bonn.se.model.objects.entitites.User;
 import org.bonn.se.model.objects.entitites.Vertriebler;
-import org.bonn.se.services.util.db.exception.DatabaseException;
-import org.bonn.se.services.util.db.exception.JDBCConnection;
+import org.bonn.se.services.db.exception.DatabaseException;
+import org.bonn.se.services.db.JDBCConnection;
 import org.bonn.se.services.util.Views;
 import org.bonn.se.services.util.Roles;
-import org.bonn.se.model.dao.ProfilDAO;
+
 
 
 import java.sql.ResultSet;
@@ -66,16 +67,16 @@ public class LoginControl {
 
                 if(set.getString(5).equals("V")) {
                     Vertriebler vertriebler = new Vertriebler();
-                    MyUI.getCurrent().getSession().setAttribute(Roles.Vertriebler,vertriebler);
+                    MyUI.getCurrent().getSession().setAttribute(Roles.VERTRIEBLER,vertriebler);
                     vertriebler.setEmail(user.getEmail());
                     vertriebler.setVorname(user.getVorname());
                     vertriebler.setNachname(user.getNachname());
                     //vertriebler = ProfilDAO.getInstance().getUnternehmenProfil(vertriebler);
 
-                    UI.getCurrent().getSession().setAttribute(Roles.Vertriebler,vertriebler);
+                    UI.getCurrent().getSession().setAttribute(Roles.VERTRIEBLER,vertriebler);
 
                 } else if(set.getString(5).equals("E")) {
-                    Endkunde endkunde;
+                    Kunde endkunde;
                     //endkunde = ProfilDAO.getInstance().getStudent(user.getEmail());
 
                     // UI.getCurrent().getSession().setAttribute(Roles.Endkunde, endkunde);
@@ -96,8 +97,8 @@ public class LoginControl {
     public static void logoutUser() {
 
         VaadinSession vaadinSession = UI.getCurrent().getSession();
-        vaadinSession.setAttribute(Roles.Endkunde,null);
-        vaadinSession.setAttribute(Roles.Vertriebler,null);
+        vaadinSession.setAttribute(Roles.KUNDE,null);
+        vaadinSession.setAttribute(Roles.VERTRIEBLER,null);
         UI.getCurrent().getNavigator().navigateTo(Views.LOGINVIEW);
     }
 
