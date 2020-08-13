@@ -1,4 +1,4 @@
-package org.bonn.se.control.exception;
+package org.bonn.se.control;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

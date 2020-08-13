@@ -4,16 +4,22 @@ package org.bonn.se.gui.views;
 import com.vaadin.data.Binder;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.UserError;
 import com.vaadin.server.VaadinService;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
+import org.bonn.se.control.UserSearchControl;
 import org.bonn.se.gui.component.RegistrationPasswordField;
 import org.bonn.se.gui.component.RegistrationTextField;
+import org.bonn.se.model.dao.UserDAO;
+import org.bonn.se.model.objects.entitites.Kunde;
 import org.bonn.se.model.objects.entitites.User;
+import org.bonn.se.model.objects.entitites.Vertriebler;
+import org.bonn.se.services.db.exception.DatabaseException;
+import org.bonn.se.services.util.Roles;
 
 
 public class Register extends VerticalLayout implements View {
@@ -66,7 +72,11 @@ public class Register extends VerticalLayout implements View {
         mainGrid.setWidthFull();
         mainGrid.setMargin(true);
 
-
+//combobox als was
+        ComboBox<String> comboAlsWas = new ComboBox<>();
+        comboAlsWas.setWidth(300.0f, Unit.PIXELS);
+        comboAlsWas.setPlaceholder("Kunde oder Vertriebler");
+        comboAlsWas.setItems( "Kunde", "Vertriebler");
 
 //Vertikales Layout + Hinzufügen der Textfelder
         VerticalLayout layout = new VerticalLayout();
@@ -96,6 +106,9 @@ public class Register extends VerticalLayout implements View {
                 .withValidator(new StringLengthValidator(
                         "Passwort muss mindestens 8 Zeichen lang sein", 8, null))
                 .bind(User::getPasswort,User::setPasswort);
+        binder.forField(comboAlsWas)
+                .asRequired("Bitte wählen Sie ein User!")
+                .bind(User::getType,User::setType);
 
         User user = new User();
 
@@ -110,8 +123,49 @@ public class Register extends VerticalLayout implements View {
 //Button zum Login + Symbol auf Button
 
         Button registerButton = new Button("Registrieren");
-        registerButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+        //registerButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
+        registerButton.addClickListener(
+                event -> {
+
+                    try {
+
+                        if (UserSearchControl.getInstance().existUser(email.getValue())) {
+                            email.setValue("");
+                            email.setPlaceholder("E-Mail existiert schon!");
+                            email.setComponentError(new UserError("Bitte eine andere E-Mail verwenden."));
+
+                        } else {
+                            UserDAO.getInstance().registerUser(user);
+
+                            if(user.getType().equals("Vertriebler")) {
+                                Kunde kunde = new Kunde();
+                                kunde.setEmail(user.getEmail());
+                                kunde.setVorname(user.getVorname());
+                                kunde.setNachname(user.getNachname());
+                                kunde.setPasswort(user.getPasswort());
+                                kunde.setType(user.getType());
+                                UI.getCurrent().getSession().setAttribute(Roles.VERTRIEBLER, kunde);
+                            }else{
+                                Vertriebler vertriebler = new Vertriebler();
+                                vertriebler.setEmail(user.getEmail());
+                                vertriebler.setVorname(user.getVorname());
+                                vertriebler.setNachname(user.getNachname());
+                                vertriebler.setPasswort(user.getPasswort());
+                                vertriebler.setType(user.getType());
+                                UI.getCurrent().getSession().setAttribute(Roles.KUNDE, vertriebler);
+                            }
+
+                        }
+
+                    } catch(DatabaseException e){
+                        e.printStackTrace();
+                    }
+
+                });
+
+        layout.addComponent(comboAlsWas);
+        layout.setComponentAlignment(comboAlsWas, Alignment.MIDDLE_CENTER);
         layout.addComponent(registerButton);
         layout.setComponentAlignment(registerButton, Alignment.MIDDLE_CENTER);
 
@@ -141,10 +195,10 @@ public class Register extends VerticalLayout implements View {
 
         mainGrid.setComponentAlignment(loginButton,Alignment.TOP_RIGHT);
         mainGrid.setComponentAlignment(head,Alignment.TOP_LEFT);
-        mainGrid.setComponentAlignment(panel,Alignment.BOTTOM_CENTER);
+        mainGrid.setComponentAlignment(panel,Alignment.TOP_CENTER);
 
         this.addComponent(mainGrid);
-        this.setComponentAlignment(mainGrid,Alignment.MIDDLE_CENTER);
+        this.setComponentAlignment(mainGrid,Alignment.TOP_CENTER);
 
 
 

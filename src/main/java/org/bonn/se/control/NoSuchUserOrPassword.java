@@ -1,4 +1,4 @@
-package org.bonn.se.control.exception;
+package org.bonn.se.control;
 
 public class NoSuchUserOrPassword  extends  Exception{
     public NoSuchUserOrPassword() {

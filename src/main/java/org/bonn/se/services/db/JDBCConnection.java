@@ -39,7 +39,6 @@ public class JDBCConnection {
             props.setProperty("user", "hfathi2s");
             props.setProperty("password", Password.DB);
 
-
             String url = "jdbc:postgresql://dumbo.inf.h-brs.de/hfathi2s";
             this.conn = DriverManager.getConnection(url, props);
         } catch (SQLException throwables) {
