@@ -26,7 +26,7 @@ public class MyUI extends UI {
 
 
         Navigator navi = new Navigator(this , this );
-        navi.addView(REGISTER, Register.class);
+        navi.addView(REGISTER, RegisterView.class);
 
 
 

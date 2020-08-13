@@ -22,7 +22,7 @@ import org.bonn.se.services.db.exception.DatabaseException;
 import org.bonn.se.services.util.Roles;
 
 
-public class Register extends VerticalLayout implements View {
+public class RegisterView extends VerticalLayout implements View {
 
     public void setUp(){
 
