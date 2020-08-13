@@ -36,6 +36,7 @@ public class MyUI extends UI {
 
 
         UI.getCurrent().getNavigator().navigateTo(REGISTER);
+        //UI.getCurrent().getNavigator().navigateTo(VERTIEBLERHOMEVIEW);
 
     }
 

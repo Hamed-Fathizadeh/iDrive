@@ -1,3 +1,11 @@
+.toppanel {
+	background-color: #CCFFFF;
+}
+
+.toppanel span.v-menubar-menuitem-caption {
+	color: white;
+}
+
 /**
  * Checks if a list contains a certain value.
  * 

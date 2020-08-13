@@ -53,6 +53,13 @@ $v-selection-overlay-padding-horizontal: 0;
 $v-selection-overlay-padding-vertical: 6px;
 $v-selection-item-border-radius: 0;
 
+.toppanel{
+  background-color: #CCFFFF;
+  span.v-menubar-menuitem-caption{
+    color: white;
+  }
+
+}
 
 @import "../valo/valo.scss";
 
