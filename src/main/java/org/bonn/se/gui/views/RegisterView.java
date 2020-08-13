@@ -20,6 +20,7 @@ import org.bonn.se.model.objects.entitites.User;
 import org.bonn.se.model.objects.entitites.Vertriebler;
 import org.bonn.se.services.db.exception.DatabaseException;
 import org.bonn.se.services.util.Roles;
+import org.bonn.se.services.util.Views;
 
 
 public class RegisterView extends VerticalLayout implements View {
@@ -137,23 +138,25 @@ public class RegisterView extends VerticalLayout implements View {
 
                         } else {
                             UserDAO.getInstance().registerUser(user);
-
                             if(user.getType().equals("Vertriebler")) {
-                                Kunde kunde = new Kunde();
-                                kunde.setEmail(user.getEmail());
-                                kunde.setVorname(user.getVorname());
-                                kunde.setNachname(user.getNachname());
-                                kunde.setPasswort(user.getPasswort());
-                                kunde.setType(user.getType());
-                                UI.getCurrent().getSession().setAttribute(Roles.VERTRIEBLER, kunde);
-                            }else{
                                 Vertriebler vertriebler = new Vertriebler();
                                 vertriebler.setEmail(user.getEmail());
                                 vertriebler.setVorname(user.getVorname());
                                 vertriebler.setNachname(user.getNachname());
                                 vertriebler.setPasswort(user.getPasswort());
                                 vertriebler.setType(user.getType());
-                                UI.getCurrent().getSession().setAttribute(Roles.KUNDE, vertriebler);
+                                UI.getCurrent().getSession().setAttribute(Roles.VERTRIEBLER, vertriebler);
+                                UI.getCurrent().getNavigator().navigateTo(Views.VERTIEBLERHOMEVIEW);
+
+                            }else{
+                                Kunde kunde = new Kunde();
+                                kunde.setEmail(user.getEmail());
+                                kunde.setVorname(user.getVorname());
+                                kunde.setNachname(user.getNachname());
+                                kunde.setPasswort(user.getPasswort());
+                                kunde.setType(user.getType());
+                                UI.getCurrent().getSession().setAttribute(Roles.KUNDE, kunde);
+                                UI.getCurrent().getNavigator().navigateTo(Views.KUNDEHOMEVIEW);
                             }
 
                         }
@@ -207,13 +210,13 @@ public class RegisterView extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-       /* if (UI.getCurrent().getSession().getAttribute(Roles.STUDENT) != null) {
-            UI.getCurrent().getNavigator().navigateTo(Views.STUDENTHOMEVIEW);
-        } else if(UI.getCurrent().getSession().getAttribute(Roles.UNTERNEHMEN) != null) {
-            UI.getCurrent().getNavigator().navigateTo(Views.UNTERNEHMENHOMEVIEW);
+       if (UI.getCurrent().getSession().getAttribute(Roles.KUNDE) != null) {
+            UI.getCurrent().getNavigator().navigateTo(Views.KUNDEHOMEVIEW);
+        } else if(UI.getCurrent().getSession().getAttribute(Roles.VERTRIEBLER) != null) {
+            UI.getCurrent().getNavigator().navigateTo(Views.VERTIEBLERHOMEVIEW);
         } else {
             this.setUp();
-        }*/
-        this.setUp();
+        }
+
     }
 }
