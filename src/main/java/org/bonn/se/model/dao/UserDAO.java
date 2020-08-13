@@ -58,10 +58,10 @@ public class UserDAO  extends AbstractDAO {
     public void registerUser(User user) throws DatabaseException {
         String sql;
 
-        if (user.getType().equals("S")) {
-            sql = "INSERT INTO lacasa.tab_user VALUES(?,?,?,?,?); INSERT INTO lacasa.tab_student (email) VALUES(?);";
+        if (user.getType().equals("Kunde")) {
+            sql = "INSERT INTO idrive.tab_user VALUES(?,?,?,?,?); INSERT INTO idrive.tab_kunde (email) VALUES(?);";
         } else{
-            sql = "INSERT INTO lacasa.tab_user VALUES(?,?,?,?,?); INSERT INTO lacasa.tab_unternehmen (firmenname,hauptsitz,bundesland,email) VALUES(?,?,?,?);";
+            sql = "INSERT INTO idrive.tab_user VALUES(?,?,?,?,?); INSERT INTO idrive.tab_vertriebler (email) VALUES(?);";
         }
         PreparedStatement statement = AbstractDAO.getPreparedStatement(sql);
 
@@ -72,14 +72,13 @@ public class UserDAO  extends AbstractDAO {
             statement.setString(2, user.getPasswort());
             statement.setString(3, user.getVorname());
             statement.setString(4, user.getNachname());
-            statement.setString(5, user.getType());
-            if(user.getType().equals("C")) {
-
-
-                statement.setString(9, user.getEmail());
-            } else {
-                statement.setString(6, user.getEmail());
+            if(user.getType().equals("Kunde")) {
+                statement.setString(5, "K");
+            }else{
+                statement.setString(5, "V");
             }
+            statement.setString(6, user.getEmail());
+
             statement.executeUpdate();
         } catch (SQLException throwables) {
             Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, null, throwables);
@@ -96,8 +95,8 @@ public class UserDAO  extends AbstractDAO {
 
         try {
             set = statement.executeQuery("SELECT * "
-                    + "FROM tab_user "
-                    + "WHERE upper(tab_user.email) = '" + email.toUpperCase() + "'");
+                    + "FROM idrive.tab_user "
+                    + "WHERE upper(idrive.tab_user.email) = '" + email.toUpperCase() + "'");
 
             while (set.next()) {
                 return set.getString(1).equalsIgnoreCase(email);
