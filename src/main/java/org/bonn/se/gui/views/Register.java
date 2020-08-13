@@ -23,16 +23,26 @@ public class Register extends VerticalLayout implements View {
         this.setMargin(true);
         this.setSizeFull();
 
-        Button loginButton = new Button("Login");
-        loginButton.setWidth("250px");
-        loginButton.setHeight("45px");
+        Button loginButton = new Button("Login",VaadinIcons.BULLSEYE);
 
         //regStudent.addClickListener((Button.ClickListener) event -> UI.getCurrent().getNavigator().navigateTo(Views.REGISTERSTUDENT));
 
        // regUnternehmen.addClickListener((Button.ClickListener) event -> UI.getCurrent().getNavigator().navigateTo(REGISTERUNTERNEHMEN));
 
         Label lPatzhalter = new Label("&nbsp", ContentMode.HTML);
+//schrifft
+        String ls1 = "<div class=WordSection1>\n" +
+                "\n" +
+                "<p class=MsoNormal><b><span style='font-size:36.0pt;line-height:107%;\n" +
+                "font-family:\"\"YACgEa4Wckw 0\", _fb_, auto\";color:#003853'>Willkommen bei <span\n" +
+                "class=SpellE>iDrive &#128663</span><o:p></o:p></span></b></p>\n" +
+                "\n" +
+                "<p class=MsoNormal><b><span style='font-size:36.0pt;line-height:107%;\n" +
+                "font-family:\"\"YACgEa4Wckw 0\", _fb_, auto\";color:#003853'>Registrieren Sie sich jetzt!<o:p></o:p></span></b></p>\n" +
+                "\n" +
+                "</div>";
 
+        Label head = new Label(ls1, ContentMode.HTML);
 
 //Textfeld vorname
         RegistrationTextField vorname = new RegistrationTextField("Vorname");
@@ -99,11 +109,11 @@ public class Register extends VerticalLayout implements View {
 
 //Button zum Login + Symbol auf Button
 
-        Button buttonLogin = new Button("Login");
-        buttonLogin.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+        Button registerButton = new Button("Registrieren");
+        registerButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
-        layout.addComponent(buttonLogin);
-        layout.setComponentAlignment(buttonLogin, Alignment.MIDDLE_CENTER);
+        layout.addComponent(registerButton);
+        layout.setComponentAlignment(registerButton, Alignment.MIDDLE_CENTER);
 
         //layout.addComponent(link4);
         //layout.setComponentAlignment(link4, Alignment.MIDDLE_CENTER);
@@ -114,20 +124,23 @@ public class Register extends VerticalLayout implements View {
         Panel panel = new Panel( "");
         panel.setWidth("40px");
 
+
         panel.setContent(layout);
         panel.setSizeUndefined();
-        //panel.setStyleName("login_bg");
 
 
-        buttonLogin.addClickListener((Button.ClickListener) clickEvent -> {
+        loginButton.addClickListener((Button.ClickListener) clickEvent -> {
             String sLogin = email.getValue();
             String sPassword = password.getValue();
 
         });
 
+        mainGrid.addComponent(loginButton,0,1,0,1);
+        mainGrid.addComponent(head,0,2,0,2);
+        mainGrid.addComponent(panel,0,3,0,3);
 
-        mainGrid.addComponent(panel,0,2,0,2);
-
+        mainGrid.setComponentAlignment(loginButton,Alignment.TOP_RIGHT);
+        mainGrid.setComponentAlignment(head,Alignment.TOP_LEFT);
         mainGrid.setComponentAlignment(panel,Alignment.BOTTOM_CENTER);
 
         this.addComponent(mainGrid);

@@ -14,8 +14,8 @@ import static org.bonn.se.services.util.Views.*;
 
 
 @Push
-@Theme("demo")
-@Title("Lacolsco")
+//@Theme("demo")
+@Title("iDrive")
 @PreserveOnRefresh
 public class MyUI extends UI {
 
