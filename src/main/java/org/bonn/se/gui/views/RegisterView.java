@@ -11,7 +11,7 @@ import com.vaadin.server.UserError;
 import com.vaadin.server.VaadinService;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
-import org.bonn.se.control.UserSearchControl;
+import org.bonn.se.control.UserControl;
 import org.bonn.se.gui.component.RegistrationPasswordField;
 import org.bonn.se.gui.component.RegistrationTextField;
 import org.bonn.se.model.dao.UserDAO;
@@ -131,7 +131,7 @@ public class RegisterView extends VerticalLayout implements View {
 
                     try {
 
-                        if (UserSearchControl.getInstance().existUser(email.getValue())) {
+                        if (UserControl.getInstance().existUser(email.getValue())) {
                             email.setValue("");
                             email.setPlaceholder("E-Mail existiert schon!");
                             email.setComponentError(new UserError("Bitte eine andere E-Mail verwenden."));
@@ -145,6 +145,7 @@ public class RegisterView extends VerticalLayout implements View {
                                 vertriebler.setNachname(user.getNachname());
                                 vertriebler.setPasswort(user.getPasswort());
                                 vertriebler.setType(user.getType());
+                                vertriebler.setPersonalnummer(UserControl.getInstance().getPersonalnummer(email.getValue()));
                                 UI.getCurrent().getSession().setAttribute(Roles.VERTRIEBLER, vertriebler);
                                 UI.getCurrent().getNavigator().navigateTo(Views.VERTIEBLERHOMEVIEW);
 
