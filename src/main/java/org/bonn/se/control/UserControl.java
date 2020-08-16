@@ -36,4 +36,13 @@ public class UserControl {
         }
         return -1;
     }
+
+    public int getKundennummer(String email )  {
+        try {
+            return UserDAO.getInstance().getKundennummer(email);
+        } catch (DatabaseException | SQLException e) {
+            Logger.getLogger(UserControl.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return -1;
+    }
 }

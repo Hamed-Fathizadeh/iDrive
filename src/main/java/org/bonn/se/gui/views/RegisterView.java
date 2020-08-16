@@ -156,6 +156,7 @@ public class RegisterView extends VerticalLayout implements View {
                                 kunde.setNachname(user.getNachname());
                                 kunde.setPasswort(user.getPasswort());
                                 kunde.setType(user.getType());
+                                kunde.setKundennummer(UserControl.getInstance().getKundennummer(user.getEmail()));
                                 UI.getCurrent().getSession().setAttribute(Roles.KUNDE, kunde);
                                 UI.getCurrent().getNavigator().navigateTo(Views.KUNDEHOMEVIEW);
                             }

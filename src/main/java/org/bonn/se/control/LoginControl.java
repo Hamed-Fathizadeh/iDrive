@@ -3,6 +3,7 @@ package org.bonn.se.control;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 import org.bonn.se.gui.ui.MyUI;
+import org.bonn.se.model.objects.entitites.Kunde;
 import org.bonn.se.model.objects.entitites.User;
 import org.bonn.se.model.objects.entitites.Vertriebler;
 import org.bonn.se.services.db.exception.DatabaseException;
@@ -65,19 +66,21 @@ public class LoginControl {
 
                 if(set.getString(5).equals("V")) {
                     Vertriebler vertriebler = new Vertriebler();
-                    MyUI.getCurrent().getSession().setAttribute(Roles.VERTRIEBLER,vertriebler);
                     vertriebler.setEmail(user.getEmail());
                     vertriebler.setVorname(user.getVorname());
                     vertriebler.setNachname(user.getNachname());
-                    //vertriebler = ProfilDAO.getInstance().getUnternehmenProfil(vertriebler);
-
+                    vertriebler.setPersonalnummer(UserControl.getInstance().getPersonalnummer(user.getEmail()));
                     UI.getCurrent().getSession().setAttribute(Roles.VERTRIEBLER,vertriebler);
 
-                } else if(set.getString(5).equals("E")) {
-                    //Kunde endkunde;
-                    //endkunde = ProfilDAO.getInstance().getStudent(user.getEmail());
+                } else if(set.getString(5).equals("K")) {
+                    Kunde kunde = new Kunde();
+                    MyUI.getCurrent().getSession().setAttribute(Roles.KUNDE,kunde);
+                    kunde.setEmail(user.getEmail());
+                    kunde.setVorname(user.getVorname());
+                    kunde.setNachname(user.getNachname());
+                    kunde.setKundennummer(UserControl.getInstance().getKundennummer(user.getEmail()));
+                    UI.getCurrent().getSession().setAttribute(Roles.KUNDE,kunde);
 
-                    // UI.getCurrent().getSession().setAttribute(Roles.Endkunde, endkunde);
                 }
             }else{
                 throw new NoSuchUserOrPassword();

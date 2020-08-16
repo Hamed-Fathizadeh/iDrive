@@ -37,4 +37,13 @@ public class ContainerEingetrageneAutos {
         return liste;
     }
 
+    public void loadAll(){
+        try {
+            liste = ContainerEingetrageneAutosDAO.getInstance().loadAll();
+        }
+        catch(DatabaseException | SQLException throwables){
+            Logger.getLogger(ContainerEingetrageneAutosDAO.class.getName()).log(Level.SEVERE, null, throwables);
+        }
+
+    }
 }

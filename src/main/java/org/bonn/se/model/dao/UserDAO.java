@@ -134,4 +134,33 @@ public class UserDAO  extends AbstractDAO {
         return personalnummer;
 
     }
+
+
+    public int getKundennummer(String email) throws DatabaseException , SQLException{
+        int personalnummer = -1;
+        ResultSet set = null;
+        Statement statement = JDBCConnection.getInstance().getStatement();
+
+        try {
+            System.out.println("SELECT kundennummer "
+                    + "FROM idrive.tab_kunde "
+                    + "WHERE upper(idrive.tab_kunde.email) = '" + email.toUpperCase() + "'");
+
+            set = statement.executeQuery("SELECT kundennummer "
+                    + "FROM idrive.tab_kunde "
+                    + "WHERE upper(idrive.tab_kunde.email) = '" + email.toUpperCase() + "'");
+
+            while (set.next()) {
+                personalnummer = set.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, null, throwables);
+        } finally {
+            assert set != null;
+            set.close();
+            JDBCConnection.getInstance().closeConnection();
+        }
+        return personalnummer;
+
+    }
 }
