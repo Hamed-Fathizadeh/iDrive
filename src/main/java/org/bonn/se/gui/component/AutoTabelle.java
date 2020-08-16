@@ -114,7 +114,7 @@ public class AutoTabelle <T extends AutoEintragDTO> extends Grid<T> {
 
 
         if(UI.getCurrent().getSession().getAttribute(Roles.VERTRIEBLER) != null) {
-            this.addColumn(AutoEintragDTO::getMarke).setCaption("Marke").setWidth(80.0);
+            this.addColumn(AutoEintragDTO::getMarke).setCaption("Marke").setWidth(150.0);
             this.addColumn(AutoEintragDTO::getModell).setCaption("Modell").setWidth(150);
             this.addColumn(AutoEintragDTO::getKurz_beschreibung).setCaption("Kurz Beschreibung").setWidth(400);
             this.addColumn(AutoEintragDTO::getBaujahr).setCaption("Baujahr").setWidth(150);

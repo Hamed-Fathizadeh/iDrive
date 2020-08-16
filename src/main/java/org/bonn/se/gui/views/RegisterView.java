@@ -40,11 +40,11 @@ public class RegisterView extends VerticalLayout implements View {
 //schrifft
         String ls1 = "<div class=WordSection1>\n" +
                 "\n" +
-                "<p class=MsoNormal><b><span style='font-size:36.0pt;line-height:107%;\n" +
+                "<p class=MsoNormal><b><span style='font-size:22.0pt;line-height:107%;\n" +
                 "font-family:\"\"YACgEa4Wckw 0\", _fb_, auto\";color:#003853'>Willkommen bei <span\n" +
                 "class=SpellE>iDrive &#128663</span><o:p></o:p></span></b></p>\n" +
                 "\n" +
-                "<p class=MsoNormal><b><span style='font-size:36.0pt;line-height:107%;\n" +
+                "<p class=MsoNormal><b><span style='font-size:22.0pt;line-height:107%;\n" +
                 "font-family:\"\"YACgEa4Wckw 0\", _fb_, auto\";color:#003853'>Registrieren Sie sich jetzt!<o:p></o:p></span></b></p>\n" +
                 "\n" +
                 "</div>";
@@ -188,8 +188,7 @@ public class RegisterView extends VerticalLayout implements View {
 
 
         loginButton.addClickListener((Button.ClickListener) clickEvent -> {
-            String sLogin = email.getValue();
-            String sPassword = password.getValue();
+            UI.getCurrent().getNavigator().navigateTo(Views.LOGINVIEW);
 
         });
 

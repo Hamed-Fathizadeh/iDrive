@@ -2,9 +2,7 @@ package org.bonn.se.control;
 
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
-import org.bonn.se.control.NoSuchUserOrPassword;
 import org.bonn.se.gui.ui.MyUI;
-import org.bonn.se.model.objects.entitites.Kunde;
 import org.bonn.se.model.objects.entitites.User;
 import org.bonn.se.model.objects.entitites.Vertriebler;
 import org.bonn.se.services.db.exception.DatabaseException;
@@ -76,7 +74,7 @@ public class LoginControl {
                     UI.getCurrent().getSession().setAttribute(Roles.VERTRIEBLER,vertriebler);
 
                 } else if(set.getString(5).equals("E")) {
-                    Kunde endkunde;
+                    //Kunde endkunde;
                     //endkunde = ProfilDAO.getInstance().getStudent(user.getEmail());
 
                     // UI.getCurrent().getSession().setAttribute(Roles.Endkunde, endkunde);
