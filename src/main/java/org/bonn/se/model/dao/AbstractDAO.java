@@ -1,11 +1,5 @@
 package org.bonn.se.model.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import org.bonn.se.services.util.db.exception.JDBCConnection;
-import org.bonn.se.services.util.db.exception.DatabaseException;
-
-public class AbstractDAO {
 import org.bonn.se.services.db.JDBCConnection;
 import org.bonn.se.services.db.exception.DatabaseException;
 
