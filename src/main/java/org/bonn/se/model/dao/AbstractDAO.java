@@ -6,6 +6,14 @@ import org.bonn.se.services.util.db.exception.JDBCConnection;
 import org.bonn.se.services.util.db.exception.DatabaseException;
 
 public class AbstractDAO {
+import org.bonn.se.services.db.JDBCConnection;
+import org.bonn.se.services.db.exception.DatabaseException;
+
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+
+public class AbstractDAO {
+
     protected Statement getStatement(){
         Statement statement;
         try {

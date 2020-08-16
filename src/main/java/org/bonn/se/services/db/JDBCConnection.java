@@ -1,5 +1,6 @@
-package org.bonn.se.services.util.db.exception;
+package org.bonn.se.services.db;
 
+import org.bonn.se.services.db.exception.DatabaseException;
 import org.bonn.se.services.util.Password;
 
 import java.sql.*;
@@ -8,7 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class JDBCConnection {
-
     private Connection conn;
 
     private static JDBCConnection instance;
@@ -38,7 +38,6 @@ public class JDBCConnection {
             Properties props = new Properties();
             props.setProperty("user", "hfathi2s");
             props.setProperty("password", Password.DB);
-
 
             String url = "jdbc:postgresql://dumbo.inf.h-brs.de/hfathi2s";
             this.conn = DriverManager.getConnection(url, props);

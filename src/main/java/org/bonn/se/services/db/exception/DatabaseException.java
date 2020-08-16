@@ -1,4 +1,4 @@
-package org.bonn.se.services.util.db.exception;
+package org.bonn.se.services.db.exception;
 
 public class DatabaseException extends Exception {
     private final String reason;

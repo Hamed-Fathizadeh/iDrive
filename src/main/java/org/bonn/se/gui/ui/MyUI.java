@@ -14,8 +14,8 @@ import static org.bonn.se.services.util.Views.*;
 
 
 @Push
-@Theme("demo")
-@Title("Lacolsco")
+//@Theme("demo")
+@Title("iDrive")
 @PreserveOnRefresh
 public class MyUI extends UI {
 
@@ -25,12 +25,18 @@ public class MyUI extends UI {
         this.setSizeFull();
 
 
+
+
         Navigator navi = new Navigator(this , this );
-        navi.addView(REGISTER, Register.class);
+        navi.addView(REGISTER, RegisterView.class);
+        //navi.addView(LOGINVIEW, LoginView.class);
+        navi.addView(VERTIEBLERHOMEVIEW, VertrieblerHomeView.class);
+       // navi.addView(KUNDEHOMEVIEW, KundeHomeView.class);
 
 
 
         UI.getCurrent().getNavigator().navigateTo(REGISTER);
+        //UI.getCurrent().getNavigator().navigateTo(VERTIEBLERHOMEVIEW);
 
     }
 

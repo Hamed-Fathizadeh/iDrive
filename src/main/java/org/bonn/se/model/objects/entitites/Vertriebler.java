@@ -1,12 +1,26 @@
 package org.bonn.se.model.objects.entitites;
 
-import org.bonn.se.services.util.IllegalException;
-
-public class Vertriebler extends  User {
+public class Vertriebler extends User{
     private int personalnummer;
+    private String vorname;
+    private String nachname;
 
-    public void setEmail(String email){
-       super.setEmail(email);
+
+    public Vertriebler(){
+        setPersonalnummer(personalnummer);
+        setVorname(vorname);
+        setNachname(nachname);
+        super.setType("V");
+    }
+
+    public Vertriebler(String email, int personalnummer, String vorname, String nachname, String passwort){
+        super.setEmail(email);
+        this.personalnummer = personalnummer;
+        this.vorname = vorname;
+        this.nachname = nachname;
+        super.setPasswort(passwort);
+        super.setType("V");
+
     }
 
     public int getPersonalnummer() {
@@ -14,24 +28,26 @@ public class Vertriebler extends  User {
     }
 
     public void setPersonalnummer(int personalnummer) {
-        int length = String.valueOf(personalnummer).length();
-        if(length<=0) {
-            throw new IllegalException();
-        }
-        if(length>5){
-            throw  new IllegalException();
-        }
-        else
-            this.personalnummer = personalnummer;
+        this.personalnummer = personalnummer;
     }
 
-    public Vertriebler(String email, long personanummer){
-        setEmail(email);
-        setPersonalnummer(personalnummer);
+    @Override
+    public String getVorname() {
+        return vorname;
     }
-    public Vertriebler(){
-        super();
-        setPersonalnummer(personalnummer);
-        setType("V");
+
+    @Override
+    public void setVorname(String vorname) {
+        this.vorname = vorname;
+    }
+
+    @Override
+    public String getNachname() {
+        return nachname;
+    }
+
+    @Override
+    public void setNachname(String nachname) {
+        this.nachname = nachname;
     }
 }
