@@ -62,4 +62,19 @@ public class AutoEintragDAO  extends AbstractDAO{
 
     }
 
+    public void autoEintragenLoeschen(AutoEintragDTO autoEintragDTO) throws DatabaseException {
+
+        String sql = "DELETE FROM idrive.tab_auto WHERE auto_id = "+autoEintragDTO.getAuto_id();
+        PreparedStatement statement = getPreparedStatement(sql);
+        try {
+            assert statement != null;
+            statement.executeUpdate();
+        }catch(NullPointerException | SQLException e){
+            Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, null, e);
+        }finally {
+            JDBCConnection.getInstance().closeConnection();
+        }
+
+    }
+
 }

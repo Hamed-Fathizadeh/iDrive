@@ -3,10 +3,12 @@ package org.bonn.se.gui.component;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
+import org.bonn.se.control.AutoEintragControl;
 import org.bonn.se.model.objects.dto.AutoEintragDTO;
 import org.bonn.se.model.objects.entitites.ContainerEingetrageneAutos;
 import org.bonn.se.services.db.exception.DatabaseException;
 import org.bonn.se.services.util.Roles;
+import org.bonn.se.services.util.Views;
 
 import java.util.List;
 
@@ -45,44 +47,38 @@ public class AutoTabelle <T extends AutoEintragDTO> extends Grid<T> {
 
             if (UI.getCurrent().getSession().getAttribute(Roles.VERTRIEBLER) != null) {
 
-                Window subWindow = new Window("Bewertung abgeben oder Löschen");
+                Window subWindow = new Window("Eintrag Löschen");
                 GridLayout subContent = new GridLayout (2,2);
                 subWindow.setContent(subContent);
-                //subWindow.setWidth("600px");
-               // subWindow.setHeight("300px");
+                subWindow.setWidth("600px");
+                subWindow.setHeight("100px");
 
 
 
-                subContent.addComponent(new Label(""),0,0);
+                subContent.addComponent(new Label("Möchten Sie den Eintrag Löschen?"),0,0);
 
-                Button bewerten = new Button("Bewertung abgeben");
-                subContent.addComponent(bewerten,0,1);
 
                 Button loeschen = new Button("Löschen");
                 subContent.addComponent(loeschen,1,1);
                 AutoEintragDTO autDTOtemp = selection.getValue();
-                bewerten.addClickListener((Button.ClickListener) clickEvent -> {
 
 
-                    subWindow.close();
-                });
+                loeschen.addClickListener((Button.ClickListener) clickEvent -> {
 
-           /*     loeschen.addClickListener((Button.ClickListener) clickEvent -> {
-
-                    if(autDTOtemp != null){
+                    /*if(autDTOtemp != null){
                         setBewerbungDTO(autDTOtemp);
-                    }
+                    }*/
                     try {
-                        BewerbungControl.bewerbungLoeschen(autDTOtemp);
+                        AutoEintragControl.autoEintragenLoeschen(autDTOtemp);
                     } catch (DatabaseException e) {
                         e.printStackTrace();
                     }
                     subWindow.close();
-                    org.bonn.se.gui.window.ConfirmationWindow confWindow =  new org.bonn.se.gui.window.ConfirmationWindow("Ihre Bewerbung wurde gelöscht");
+                    org.bonn.se.gui.window.ConfirmationWindow confWindow =  new org.bonn.se.gui.window.ConfirmationWindow("Der Eintrag wurde gelöscht");
                     UI.getCurrent().addWindow(confWindow);
                     confWindow.focus();
-                    UI.getCurrent().getNavigator().navigateTo(viewName);
-                });*/
+                    UI.getCurrent().getNavigator().navigateTo(Views.VERTIEBLERHOMEVIEW);
+                });
 
 
                 subWindow.center();

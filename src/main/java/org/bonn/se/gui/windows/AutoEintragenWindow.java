@@ -1,6 +1,7 @@
 package org.bonn.se.gui.windows;
 
 import com.vaadin.data.Binder;
+import com.vaadin.data.HasValue;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.bonn.se.control.AutoEintragControl;
@@ -8,6 +9,8 @@ import org.bonn.se.gui.component.CustomWindow;
 import org.bonn.se.gui.component.RegistrationTextField;
 import org.bonn.se.model.objects.dto.AutoEintragDTO;
 import org.bonn.se.model.objects.entitites.*;
+import org.bonn.se.services.util.AutoMarkeService;
+import org.bonn.se.services.util.AutoModellService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -45,14 +48,16 @@ public class AutoEintragenWindow extends CustomWindow {
 
         ComboBox<String> comboMarke = new ComboBox<>("Marke");
         comboMarke.setWidth(300.0f, Unit.PIXELS);
-        comboMarke.setItems("Acura");//temp
-        //SuchbegrifService sService = new SuchbegrifService();
-        //comboNachWas.setDataProvider(sService::fetch, sService::count);
+        AutoMarkeService ServiceMarke = new AutoMarkeService();
+        comboMarke.setDataProvider(ServiceMarke::fetch, ServiceMarke::count);
 
         ComboBox<String> comboModell = new ComboBox<>("Modell");
         comboModell.setWidth(300.0f, Unit.PIXELS);
-        comboModell.setItems("CL");//temp
 
+        comboMarke.addValueChangeListener((HasValue.ValueChangeListener<String>) event -> {
+        AutoModellService ServiceModell = new AutoModellService(comboMarke.getValue());
+        comboModell.setDataProvider(ServiceModell::fetch, ServiceModell::count);
+        });
         ComboBox<String> comboBaujahr = new ComboBox<>("Baujahr");
         comboBaujahr.setWidth(300.0f, Unit.PIXELS);
 

@@ -10,7 +10,11 @@ public class AutoEintragControl {
 
     }
 
-    public static void autoEintragen(AutoEintragDTO bewerbung) throws DatabaseException {
-        AutoEintragDAO.getInstance().autoEintragen(bewerbung);
+    public static void autoEintragen(AutoEintragDTO autoEintragDTO) throws DatabaseException {
+        AutoEintragDAO.getInstance().autoEintragen(autoEintragDTO);
+    }
+
+    public static void autoEintragenLoeschen(AutoEintragDTO autoEintragDTO) throws DatabaseException {
+        AutoEintragDAO.getInstance().autoEintragenLoeschen(autoEintragDTO);
     }
 }
