@@ -65,9 +65,9 @@ public class AutoTabelle <T extends AutoEintragDTO> extends Grid<T> {
 
                 loeschen.addClickListener((Button.ClickListener) clickEvent -> {
 
-                    /*if(autDTOtemp != null){
-                        setBewerbungDTO(autDTOtemp);
-                    }*/
+                    if(autDTOtemp != null){
+                        setAutoEintragDTO(autDTOtemp);
+                    }
                     try {
                         AutoEintragControl.autoEintragenLoeschen(autDTOtemp);
                     } catch (DatabaseException e) {

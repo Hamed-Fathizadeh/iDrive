@@ -1,11 +1,8 @@
 package org.bonn.se.control;
 
-import org.bonn.se.model.dao.AutoMarkeDAO;
 import org.bonn.se.model.dao.ReservierungDAO;
-import org.bonn.se.model.objects.dto.ReserviernugDTO;
+import org.bonn.se.model.objects.dto.ReservierungDTO;
 import org.bonn.se.services.db.exception.DatabaseException;
-
-import java.util.List;
 
 public class ReservierungControl {
 
@@ -22,10 +19,19 @@ public class ReservierungControl {
         return instance;
     }
 
-    public void reservieren (ReserviernugDTO reserviernugDTO) {
+    public void reservieren (ReservierungDTO reservierungDTO) {
 
         try {
-            ReservierungDAO.getInstance().reservieren(reserviernugDTO);
+            ReservierungDAO.getInstance().reservieren(reservierungDTO);
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void stornieren (ReservierungDTO reservierungDTO) {
+
+        try {
+            ReservierungDAO.getInstance().stornieren(reservierungDTO);
         } catch (DatabaseException e) {
             e.printStackTrace();
         }

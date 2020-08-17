@@ -1,4 +1,5 @@
 org\bonn\se\model\objects\entitites\User.class
+org\bonn\se\gui\component\AutoReservierenWindow.class
 org\bonn\se\gui\component\RegistrationPasswordField.class
 org\bonn\se\control\ComponentControl.class
 org\bonn\se\control\exception\NoSuchUserOrPassword.class
@@ -7,7 +8,9 @@ org\bonn\se\services\util\Views.class
 org\bonn\se\services\util\Password.class
 org\bonn\se\control\LoginControl.class
 org\bonn\se\model\dao\AutoMarkeDAO.class
+org\bonn\se\model\dao\ReservierungDAO.class
 org\bonn\se\gui\ui\MyUI.class
+org\bonn\se\gui\component\TopPanelUser.class
 org\bonn\se\gui\ui\MyUI$MyUIServlet.class
 org\bonn\se\gui\component\RegistrationTextField.class
 org\bonn\se\gui\views\KundeHomeView.class

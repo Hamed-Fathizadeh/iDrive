@@ -32,6 +32,7 @@ public class MyUI extends UI {
         navi.addView(LOGINVIEW, LoginView.class);
         navi.addView(VERTIEBLERHOMEVIEW, VertrieblerHomeView.class);
         navi.addView(KUNDEHOMEVIEW, KundeHomeView.class);
+        navi.addView(RESERVIERUNGENVIEW, ReservierungenView.class);
 
 
 

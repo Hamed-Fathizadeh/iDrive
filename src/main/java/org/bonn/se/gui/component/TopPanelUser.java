@@ -64,13 +64,14 @@ public class TopPanelUser extends GridLayout {
         bar.addStyleName("user-menu");
         if(UI.getCurrent().getSession().getAttribute(Roles.KUNDE) != null) {
             item1 = bar.addItem(((Kunde) UI.getCurrent().getSession().getAttribute(Roles.KUNDE)).getVorname(),profilbild.getSource(),null);
+            item1.addItem("Home", VaadinIcons.HOME, (MenuBar.Command) menuItem -> UI.getCurrent().getNavigator().navigateTo(Views.KUNDEHOMEVIEW));
+            item1.addItem("Reservierungen", VaadinIcons.NOTEBOOK, (MenuBar.Command) menuItem -> MyUI.getCurrent().getNavigator().navigateTo(Views.RESERVIERUNGENVIEW));
         }else{
             item1 = bar.addItem(((Vertriebler) UI.getCurrent().getSession().getAttribute(Roles.VERTRIEBLER)).getVorname(),profilbild.getSource(),null);
+            item1.addItem("Home", VaadinIcons.HOME, (MenuBar.Command) menuItem -> UI.getCurrent().getNavigator().navigateTo(Views.VERTIEBLERHOMEVIEW));
         }
 
-            item1.addItem("Home", VaadinIcons.HOME, (MenuBar.Command) menuItem -> UI.getCurrent().getNavigator().navigateTo(Views.REGISTER));
-            item1.addItem("Mein Profil", VaadinIcons.USER, (MenuBar.Command) menuItem -> MyUI.getCurrent().getNavigator().navigateTo(Views.REGISTER));
-            item1.addItem("Einstellungen", VaadinIcons.COG, (MenuBar.Command) menuItem -> UI.getCurrent().getNavigator().navigateTo(Views.REGISTER));
+            //item1.addItem("Einstellungen", VaadinIcons.COG, (MenuBar.Command) menuItem -> UI.getCurrent().getNavigator().navigateTo(Views.REGISTER));
             item1.addSeparator();
             item1.addItem("Logout", VaadinIcons.SIGN_OUT, (MenuBar.Command) menuItem -> LoginControl.logoutUser());
 

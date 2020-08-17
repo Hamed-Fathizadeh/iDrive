@@ -2,6 +2,7 @@ package org.bonn.se.gui.windows;
 
 import com.vaadin.data.Binder;
 import com.vaadin.data.HasValue;
+import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.bonn.se.control.AutoEintragControl;
@@ -50,52 +51,61 @@ public class AutoEintragenWindow extends CustomWindow {
         comboMarke.setWidth(300.0f, Unit.PIXELS);
         AutoMarkeService ServiceMarke = new AutoMarkeService();
         comboMarke.setDataProvider(ServiceMarke::fetch, ServiceMarke::count);
+        comboMarke.setPlaceholder("BMW");
 
         ComboBox<String> comboModell = new ComboBox<>("Modell");
         comboModell.setWidth(300.0f, Unit.PIXELS);
+        comboModell.setPlaceholder("X3");
+
 
         comboMarke.addValueChangeListener((HasValue.ValueChangeListener<String>) event -> {
         AutoModellService ServiceModell = new AutoModellService(comboMarke.getValue());
         comboModell.setDataProvider(ServiceModell::fetch, ServiceModell::count);
         });
-        ComboBox<String> comboBaujahr = new ComboBox<>("Baujahr");
+        ComboBox<Integer> comboBaujahr = new ComboBox<>("Baujahr");
         comboBaujahr.setWidth(300.0f, Unit.PIXELS);
 
         DateField date = new DateField();
         date.setValue(LocalDate.now());
         date.setDateFormat("yyyy-MM-dd");
         System.out.println(date.getValue().getYear());
-        List<String> lBaujahr = new ArrayList<String>();
-        for(int i = date.getValue().getYear(); i >= 1980;i-- ){
-            lBaujahr.add(i+"");
+        List<Integer> lBaujahr = new ArrayList<Integer>();
+        for(int i = date.getValue().getYear(); i >= 1970;i-- ){
+            lBaujahr.add(i);
         }
         comboBaujahr.setItems(lBaujahr);
 
-        ComboBox<String> comboAutomatik = new ComboBox<>("Automatik");
+
+        ComboBox<Boolean> comboAutomatik = new ComboBox<>("Automatik");
         comboAutomatik.setWidth(300.0f, Unit.PIXELS);
-        comboAutomatik.setItems("Ja","Nein");
+        comboAutomatik.setItems(true,false);
 
-        ComboBox<String> comboKlimaanlage = new ComboBox<>("Klimaanlage");
+        ComboBox<Boolean> comboKlimaanlage = new ComboBox<>("Klimaanlage");
         comboKlimaanlage.setWidth(300.0f, Unit.PIXELS);
-        comboKlimaanlage.setItems("Ja","Nein");
+        comboKlimaanlage.setItems(true,false);
 
-        ComboBox<String> comboAnzahlSitze = new ComboBox<>("Anzahl Sitze");
+        ComboBox<Integer> comboAnzahlSitze = new ComboBox<>("Anzahl Sitze");
         comboAnzahlSitze.setWidth(300.0f, Unit.PIXELS);
-        comboAnzahlSitze.setItems("1","2","3","4","5","6","7","8","9");
+        comboAnzahlSitze.setItems(1,2,3,4,5,6,7,8,9);
 
-        ComboBox<String> comboAnzahlTuere = new ComboBox<>("Anzahl Türe");
+        ComboBox<Integer> comboAnzahlTuere = new ComboBox<>("Anzahl Türe");
         comboAnzahlTuere.setWidth(300.0f, Unit.PIXELS);
-        comboAnzahlTuere.setItems("1","2","3","4","5");
+        comboAnzahlTuere.setItems(1,2,3,4,5);
 
         ComboBox<String> comboAutoType = new ComboBox<>("Auto Type");
         comboAutoType.setWidth(300.0f, Unit.PIXELS);
         comboAutoType.setItems("Cabrio","Limousine","SUV","Coupe","Kombi","Van","Transporter");
+        comboAutoType.setPlaceholder("SUV");
 
-        RegistrationTextField preis = new RegistrationTextField("Preis Pro Tag");
+        ComboBox<Double> preis = new ComboBox("Preis Pro Tag");
         preis.setWidth(300.0f, Unit.PIXELS);
+
+        preis.setItems(10.00,20.00,30.00,40.00,50.00,60.00,70.00,80.00,90.00,100.00);
 
         RegistrationTextField kennzeichen = new RegistrationTextField("Autokennzeichen");
         kennzeichen.setWidth(300.0f, Unit.PIXELS);
+        kennzeichen.setCaption("Autokennzeichen");
+        kennzeichen.setPlaceholder("KHI234");
 
         Binder<Auto> binder = new Binder<>(Auto.class);
 
@@ -107,9 +117,53 @@ public class AutoEintragenWindow extends CustomWindow {
                 .asRequired("Modell muss angegeben werden!")
                 .bind(Auto::getModell,Auto::setModell);
 
-        Auto auto = new Auto();
+        binder.forField(comboBaujahr)
+                .asRequired("Baujahr muss angegeben werden!")
+                .bind(Auto::getBaujahr,Auto::setBaujahr);
 
+
+        binder.forField(comboAutomatik)
+                .asRequired("Ist es Automatik?")
+                .bind(Auto::isAutomatik,Auto::setAutomatik);
+
+
+        binder.forField(comboKlimaanlage)
+                .asRequired("Hat es einen Klimaanlage?")
+                .bind(Auto::isKlimaanlage,Auto::setKlimaanlage);
+
+
+        binder.forField(comboAnzahlSitze)
+                .asRequired("Anzahl Sitzplätze  muss angegeben werden!")
+                .bind(Auto::getAnzahl_sitzplaetze,Auto::setAnzahl_sitzplaetze);
+
+
+        binder.forField(comboAnzahlTuere)
+                .asRequired("Anzahl Türen  muss angegeben werden!")
+                .bind(Auto::getAnzahl_tueren,Auto::setAnzahl_tueren);
+
+
+        binder.forField(comboAutoType)
+                .asRequired("Auto Type  muss angegeben werden!")
+                .bind(Auto::getAuto_type,Auto::setAuto_type);
+
+        binder.forField(preis)
+                .asRequired("Preis  muss angegeben werden!")
+                .bind(Auto::getPreis_pro_tag,Auto::setPreis_pro_tag);
+
+
+
+        binder.forField(kennzeichen)
+                .asRequired("Kennzeichen  muss angegeben werden!")
+                .withValidator(new StringLengthValidator(
+                        "Kennzeichen darf nicht länger als 10 Buchstaben sein!", null, 10))
+                .bind(Auto::getAutokennzeichen,Auto::setAutokennzeichen);
+
+
+
+        Auto auto = new Auto();
         binder.setBean(auto);
+
+
 
         gridLayout.addComponent(head,0,0,2,0);
 
@@ -172,13 +226,13 @@ public class AutoEintragenWindow extends CustomWindow {
                     AutoEintragDTO autoEintragDTO = new AutoEintragDTO();
                     autoEintragDTO.setMarke(auto.getMarke());
                     autoEintragDTO.setModell(auto.getModell());
-                    autoEintragDTO.setBaujahr(Integer.parseInt(comboBaujahr.getValue()));
-                    autoEintragDTO.setAutomatik(comboAutomatik.getValue().equals("Ja")?true:false);
-                    autoEintragDTO.setKlimaanlage(comboKlimaanlage.getValue().equals("Ja")?true:false);
-                    autoEintragDTO.setAnzahl_sitzplaetze(Integer.parseInt(comboAnzahlSitze.getValue()));
-                    autoEintragDTO.setAnzahl_tueren(Integer.parseInt(comboAnzahlTuere.getValue()));
+                    autoEintragDTO.setBaujahr(comboBaujahr.getValue());
+                    autoEintragDTO.setAutomatik(comboAutomatik.getValue());
+                    autoEintragDTO.setKlimaanlage(comboKlimaanlage.getValue());
+                    autoEintragDTO.setAnzahl_sitzplaetze(comboAnzahlSitze.getValue());
+                    autoEintragDTO.setAnzahl_tueren(comboAnzahlTuere.getValue());
                     autoEintragDTO.setAuto_type(comboAutoType.getValue());
-                    autoEintragDTO.setPreis_pro_tag(Double.parseDouble(preis.getValue()));
+                    autoEintragDTO.setPreis_pro_tag(preis.getValue());
                     autoEintragDTO.setAutokennzeichen(kennzeichen.getValue());
                     autoEintragDTO.setKurz_beschreibung(richTextAreaKurz.getValue());
                     autoEintragDTO.setLang_beschreibung(richTextAreaLang.getValue());
@@ -193,10 +247,6 @@ public class AutoEintragenWindow extends CustomWindow {
                     this.close();
 
                 });
-
-
-
-
 
 
         gridLayout.setComponentAlignment(head, Alignment.TOP_CENTER);
@@ -220,6 +270,8 @@ public class AutoEintragenWindow extends CustomWindow {
 
         panel.setContent(gridLayout);
         this.setContent(panel);
+
+
 
 
 

@@ -1,18 +1,16 @@
 package org.bonn.se.gui.windows;
 
-import com.vaadin.data.converter.LocalDateTimeToDateConverter;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.bonn.se.control.ReservierungControl;
 import org.bonn.se.gui.component.CustomWindow;
 import org.bonn.se.model.objects.dto.AutoEintragDTO;
-import org.bonn.se.model.objects.dto.ReserviernugDTO;
-import org.bonn.se.services.util.Views;
+import org.bonn.se.model.objects.dto.ReservierungDTO;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 
 public class AutoReservierenWindow extends CustomWindow {
 
@@ -126,7 +124,7 @@ public class AutoReservierenWindow extends CustomWindow {
 
         Label datePickerRuecklLabel = new Label("<b>Rückgabedatum</b>", ContentMode.HTML);
         DateTimeField datePickerRueck = new DateTimeField ();
-        datePickerRueck.setValue (LocalDateTime.now().plusDays(7));
+        datePickerRueck.setValue (LocalDateTime.now());
 
         gridLayout.addComponent (datePickerRuecklLabel, 1,21);
         gridLayout.addComponent (datePickerRueck, 1,22);
@@ -136,6 +134,24 @@ public class AutoReservierenWindow extends CustomWindow {
 
         gridLayout.addComponent(reservieungButton,4,23);
         gridLayout.setComponentAlignment(reservieungButton, Alignment.BOTTOM_RIGHT);
+
+        Label preis = new Label("<b>Gesamtpreis</b>", ContentMode.HTML);
+        Label preisD = new Label("");
+
+        gridLayout.addComponent (preis, 2,21);
+        gridLayout.addComponent (preisD, 2,22);
+
+        datePickerRueck.addValueChangeListener( clickEvent -> {
+            long days = Period.between(datePickerAbhol.getValue().toLocalDate(), datePickerRueck.getValue().toLocalDate()).getDays();
+            preisD.setValue( days * autoEintragDTO.getPreis_pro_tag()+"0 Euro" );
+
+        });
+
+        datePickerAbhol.addValueChangeListener( clickEvent -> {
+            long days = Period.between(datePickerAbhol.getValue().toLocalDate(), datePickerRueck.getValue().toLocalDate()).getDays();
+            preisD.setValue( days * autoEintragDTO.getPreis_pro_tag()+"0 Euro" );
+
+        });
 
         reservieungButton.addClickListener((Button.ClickListener) clickEvent -> {
             Window subWindow = new Window("Reservierung");
@@ -160,12 +176,12 @@ public class AutoReservierenWindow extends CustomWindow {
             jaButton.addClickListener((Button.ClickListener) clickEvent3 -> {
 
                 //new LocalDateTimeToDateConverter.convertToModel(
-                ReserviernugDTO reserviernugDTO = new ReserviernugDTO();
-                reserviernugDTO.setAuto_id(autoEintragDTO.getAuto_id());
-                reserviernugDTO.setAbholdatum( Timestamp.valueOf(datePickerAbhol.getValue()));
-                reserviernugDTO.setRueckgabedatum(Timestamp.valueOf(datePickerRueck.getValue()));
+                ReservierungDTO reservierungDTO = new ReservierungDTO();
+                reservierungDTO.setAuto_id(autoEintragDTO.getAuto_id());
+                reservierungDTO.setAbholdatum( Timestamp.valueOf(datePickerAbhol.getValue()));
+                reservierungDTO.setRueckgabedatum(Timestamp.valueOf(datePickerRueck.getValue()));
 
-                ReservierungControl.getInstance().reservieren(reserviernugDTO);
+                ReservierungControl.getInstance().reservieren(reservierungDTO);
 
                 subWindow.close();
                 this.close();

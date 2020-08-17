@@ -1,17 +1,13 @@
 package org.bonn.se.gui.component;
 
-import com.vaadin.data.converter.LocalDateTimeToDateConverter;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.bonn.se.control.ReservierungControl;
-import org.bonn.se.gui.component.CustomWindow;
 import org.bonn.se.model.objects.dto.AutoEintragDTO;
-import org.bonn.se.model.objects.dto.ReserviernugDTO;
-import org.bonn.se.services.util.Views;
+import org.bonn.se.model.objects.dto.ReservierungDTO;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class AutoReservierenWindow extends CustomWindow {
@@ -160,12 +156,12 @@ public class AutoReservierenWindow extends CustomWindow {
             jaButton.addClickListener((Button.ClickListener) clickEvent3 -> {
 
                 //new LocalDateTimeToDateConverter.convertToModel(
-                ReserviernugDTO reserviernugDTO = new ReserviernugDTO();
-                reserviernugDTO.setAuto_id(autoEintragDTO.getAuto_id());
-                reserviernugDTO.setAbholdatum( Timestamp.valueOf(datePickerAbhol.getValue()));
-                reserviernugDTO.setRueckgabedatum(Timestamp.valueOf(datePickerRueck.getValue()));
+                ReservierungDTO reservierungDTO = new ReservierungDTO();
+                reservierungDTO.setAuto_id(autoEintragDTO.getAuto_id());
+                reservierungDTO.setAbholdatum( Timestamp.valueOf(datePickerAbhol.getValue()));
+                reservierungDTO.setRueckgabedatum(Timestamp.valueOf(datePickerRueck.getValue()));
 
-                ReservierungControl.getInstance().reservieren(reserviernugDTO);
+                ReservierungControl.getInstance().reservieren(reservierungDTO);
 
                 subWindow.close();
                 this.close();
