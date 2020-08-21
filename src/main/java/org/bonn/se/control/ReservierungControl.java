@@ -4,6 +4,8 @@ import org.bonn.se.model.dao.ReservierungDAO;
 import org.bonn.se.model.objects.dto.ReservierungDTO;
 import org.bonn.se.services.db.exception.DatabaseException;
 
+import java.sql.Timestamp;
+
 public class ReservierungControl {
 
     private ReservierungControl(){
@@ -26,6 +28,16 @@ public class ReservierungControl {
         } catch (DatabaseException e) {
             e.printStackTrace();
         }
+    }
+
+    public Timestamp[] istReserviert (ReservierungDTO reservierungDTO) {
+
+        try {
+           return ReservierungDAO.getInstance().istReserviert(reservierungDTO);
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void stornieren (ReservierungDTO reservierungDTO) {

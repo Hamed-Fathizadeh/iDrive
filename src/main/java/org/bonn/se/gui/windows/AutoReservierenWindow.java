@@ -180,8 +180,15 @@ public class AutoReservierenWindow extends CustomWindow {
                 reservierungDTO.setAuto_id(autoEintragDTO.getAuto_id());
                 reservierungDTO.setAbholdatum( Timestamp.valueOf(datePickerAbhol.getValue()));
                 reservierungDTO.setRueckgabedatum(Timestamp.valueOf(datePickerRueck.getValue()));
-
-                ReservierungControl.getInstance().reservieren(reservierungDTO);
+                Timestamp[] resDatum = ReservierungControl.getInstance().istReserviert(reservierungDTO);
+                if( resDatum[0] != null){
+                    org.bonn.se.gui.window.ConfirmationWindow confWindow = new org.bonn.se.gui.window.ConfirmationWindow("Das Auto ist von: "+resDatum[0]+" bis: "+resDatum[1]+" reserviert! \n " +
+                            "Bitte wehlen Sie eine andere Datum!");
+                    confWindow.setCaption("Andere Datum auswählen!");
+                    UI.getCurrent().addWindow(confWindow);
+                }else {
+                    ReservierungControl.getInstance().reservieren(reservierungDTO);
+                }
 
                 subWindow.close();
                 this.close();

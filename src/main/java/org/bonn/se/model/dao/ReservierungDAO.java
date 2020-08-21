@@ -9,10 +9,7 @@ import org.bonn.se.services.db.exception.DatabaseException;
 import org.bonn.se.services.util.Roles;
 import org.bonn.se.services.util.Views;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -51,6 +48,36 @@ public class ReservierungDAO extends AbstractDAO{
             JDBCConnection.getInstance().closeConnection();
         }
 
+
+    }
+
+    public Timestamp[] istReserviert(ReservierungDTO reservierungDTO) throws DatabaseException {
+        ResultSet set = null;
+        boolean res = false;
+        Timestamp[] datumReserviert = new Timestamp[2];
+        try {
+            Statement statement = JDBCConnection.getInstance().getStatement();
+            set = statement.executeQuery("select * \n" +
+                    "  from idrive.tab_reservierung\n" +
+                    " where '"+reservierungDTO.getAbholdatum()+"'  between abholdatum and rueckgabedatum\n" +
+                    "    or '"+reservierungDTO.getRueckgabedatum()+"'    between abholdatum and rueckgabedatum\n"+
+                    "    and auto_id = "+reservierungDTO.getAuto_id()
+
+
+            );
+
+            if (set.next()) {
+                datumReserviert[0] =  set.getTimestamp("abholdatum");
+                datumReserviert[1] =  set.getTimestamp("rueckgabedatum");
+            }
+
+          } catch (SQLException throwables) {
+            Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, null, throwables);
+          } finally {
+            assert set != null;
+            JDBCConnection.getInstance().closeConnection();
+        }
+        return datumReserviert;
 
     }
 
