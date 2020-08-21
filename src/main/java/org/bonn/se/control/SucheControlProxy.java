@@ -3,8 +3,6 @@ package org.bonn.se.control;
 import com.vaadin.data.provider.DataProvider;
 import org.bonn.se.model.objects.dto.AutoEintragDTO;
 
-import java.time.LocalDate;
-
 public class SucheControlProxy implements Suche {
 
     private  SucheControl implSucheControl;
@@ -19,11 +17,14 @@ public class SucheControlProxy implements Suche {
 
 
     @Override
-    public DataProvider<AutoEintragDTO, Void> einfacheSuche(String comboMarke, String comboModell, String comboBaujahr, String suchArt, String comboKlimaanlage, String comboAnzahlSitze, String comboAnzahlTuere) {
+    public DataProvider<AutoEintragDTO, Void> einfacheSuche(String comboMarke, String comboModell, String comboBaujahr, String suchArt,
+                                                            String comboKlimaanlage, String comboAnzahlSitze, String comboAnzahlTuere,
+                                                            String comboZustand, String comboKraftstoffart, String combofarbe, int preis, int kilometer) {
         if(implSucheControl == null) {
             implSucheControl = new SucheControl();
         }
-        return implSucheControl.einfacheSuche(comboMarke, comboModell, comboBaujahr, suchArt, comboKlimaanlage, comboAnzahlSitze, comboAnzahlTuere);
+        return implSucheControl.einfacheSuche(comboMarke, comboModell, comboBaujahr, suchArt, comboKlimaanlage, comboAnzahlSitze,
+                                              comboAnzahlTuere, comboZustand, comboKraftstoffart,combofarbe,preis,kilometer);
     }
 }
 

@@ -32,7 +32,7 @@ public class AutoEintragenWindow extends CustomWindow {
         //this.setClosable(false);
 
 
-        GridLayout gridLayout = new GridLayout(3, 17);
+        GridLayout gridLayout = new GridLayout(3, 23);
         gridLayout.setWidthFull();
         //gridLayout.setHeightUndefined();
         gridLayout.setMargin(true);
@@ -97,15 +97,38 @@ public class AutoEintragenWindow extends CustomWindow {
         comboAutoType.setItems("Cabrio","Limousine","SUV","Coupe","Kombi","Van","Transporter");
         comboAutoType.setPlaceholder("SUV");
 
-        ComboBox<Double> preis = new ComboBox("Preis Pro Tag");
+        ComboBox<String> comboZustand = new ComboBox<>("Zustand");
+        comboZustand.setWidth(300.0f, Unit.PIXELS);
+        comboZustand.setItems("Neu","Gebraucht","Tageszulassung","Jahreswagen","Oldtimer","Vorführfahrzeug","Fahrtauglich");
+        comboZustand.setPlaceholder("Neu");
+
+        ComboBox<String> comboKraftstoffart = new ComboBox<>("Kraftstoffart");
+        comboKraftstoffart.setWidth(300.0f, Unit.PIXELS);
+        comboKraftstoffart.setItems("Benzin","Diesel","Elektro","Hybrid (Benzin/Elektro)","Hybrid (Diesel / Elektro)","Autogas (LPG)",
+                               "Ethanol (FFV, E85 etc.)", "Wasserstoff");
+        comboKraftstoffart.setPlaceholder("Benzin");
+
+        ComboBox<String> comboFarbe = new ComboBox<>("Außenfarbe");
+        comboFarbe.setWidth(300.0f, Unit.PIXELS);
+        comboFarbe.setItems("Beige","Schwarz","Blau","Braun","Gold","Grün","Grau", "Orange", "Violett", "Rot",
+                               "Silber", "Weiß", "Gelb", "Metallic");
+        comboFarbe.setPlaceholder("Neu");
+
+        ComboBox<Integer> preis = new ComboBox("Preis");
         preis.setWidth(300.0f, Unit.PIXELS);
+        List<Integer> lPreis = new ArrayList<Integer>();
+        for(int i = 500; i <= 100000; i+= 500 ){
+            lPreis.add(i);
+        }
+        preis.setItems(lPreis);
 
-        preis.setItems(10.00,20.00,30.00,40.00,50.00,60.00,70.00,80.00,90.00,100.00);
-
-        RegistrationTextField kennzeichen = new RegistrationTextField("Autokennzeichen");
-        kennzeichen.setWidth(300.0f, Unit.PIXELS);
-        kennzeichen.setCaption("Autokennzeichen");
-        kennzeichen.setPlaceholder("KHI234");
+        ComboBox<Integer> kilometer = new ComboBox("Kilometer");
+        kilometer.setWidth(300.0f, Unit.PIXELS);
+        List<Integer> lkilometer = new ArrayList<Integer>();
+        for(int i = 0; i <= 150000; i+= 5000 ){
+            lkilometer.add(i);
+        }
+        kilometer.setItems(lkilometer);
 
         Binder<Auto> binder = new Binder<>(Auto.class);
 
@@ -141,22 +164,29 @@ public class AutoEintragenWindow extends CustomWindow {
                 .asRequired("Anzahl Türen  muss angegeben werden!")
                 .bind(Auto::getAnzahl_tueren,Auto::setAnzahl_tueren);
 
-
         binder.forField(comboAutoType)
                 .asRequired("Auto Type  muss angegeben werden!")
                 .bind(Auto::getAuto_type,Auto::setAuto_type);
 
         binder.forField(preis)
                 .asRequired("Preis  muss angegeben werden!")
-                .bind(Auto::getPreis_pro_tag,Auto::setPreis_pro_tag);
+                .bind(Auto::getPreis,Auto::setPreis);
 
+        binder.forField(comboZustand)
+                .asRequired("Zustand  muss angegeben werden!")
+                .bind(Auto::getZustand,Auto::setZustand);
 
+        binder.forField(comboKraftstoffart)
+                .asRequired("Kraftstoff  muss angegeben werden!")
+                .bind(Auto::getKraftstoffart,Auto::setKraftstoffart);
 
-        binder.forField(kennzeichen)
-                .asRequired("Kennzeichen  muss angegeben werden!")
-                .withValidator(new StringLengthValidator(
-                        "Kennzeichen darf nicht länger als 10 Buchstaben sein!", null, 10))
-                .bind(Auto::getAutokennzeichen,Auto::setAutokennzeichen);
+        binder.forField(comboFarbe)
+                .asRequired("Farbe  muss angegeben werden!")
+                .bind(Auto::getAussenfarbe,Auto::setAussenfarbe);
+
+        binder.forField(kilometer)
+                .asRequired("Kilometer  muss angegeben werden!")
+                .bind(Auto::getKilometer,Auto::setKilometer);
 
 
 
@@ -183,11 +213,14 @@ public class AutoEintragenWindow extends CustomWindow {
 
         gridLayout.addComponent(comboAnzahlTuere,0,5);
         gridLayout.addComponent(comboAutoType,1,5);
+        gridLayout.addComponent(comboZustand,2,5);
 
         Label lPatzhalter3 = new Label("&nbsp", ContentMode.HTML);
         gridLayout.addComponent(lPatzhalter3,0,6,2,6);
 
-        gridLayout.addComponent(kennzeichen,0,7);
+        gridLayout.addComponent(comboKraftstoffart,0,7);
+        gridLayout.addComponent(comboFarbe,1,7);
+        gridLayout.addComponent(kilometer,2,7);
 
         Label lPatzhalter4 = new Label("&nbsp", ContentMode.HTML);
         gridLayout.addComponent(lPatzhalter4,0,8,2,8);
@@ -232,10 +265,13 @@ public class AutoEintragenWindow extends CustomWindow {
                     autoEintragDTO.setAnzahl_sitzplaetze(comboAnzahlSitze.getValue());
                     autoEintragDTO.setAnzahl_tueren(comboAnzahlTuere.getValue());
                     autoEintragDTO.setAuto_type(comboAutoType.getValue());
-                    autoEintragDTO.setPreis_pro_tag(preis.getValue());
-                    autoEintragDTO.setAutokennzeichen(kennzeichen.getValue());
+                    autoEintragDTO.setPreis(preis.getValue());
+                    autoEintragDTO.setZustand(comboZustand.getValue());
                     autoEintragDTO.setKurz_beschreibung(richTextAreaKurz.getValue());
                     autoEintragDTO.setLang_beschreibung(richTextAreaLang.getValue());
+                    autoEintragDTO.setAussenfarbe(comboFarbe.getValue());
+                    autoEintragDTO.setKilometer(kilometer.getValue());
+                    autoEintragDTO.setKraftstoffart(comboKraftstoffart.getValue());
 
 
 
@@ -258,7 +294,10 @@ public class AutoEintragenWindow extends CustomWindow {
         gridLayout.setComponentAlignment(comboAnzahlSitze, Alignment.MIDDLE_CENTER);
         gridLayout.setComponentAlignment(comboAnzahlTuere, Alignment.MIDDLE_CENTER);
         gridLayout.setComponentAlignment(comboAutoType, Alignment.MIDDLE_CENTER);
-        gridLayout.setComponentAlignment(kennzeichen, Alignment.MIDDLE_CENTER);
+        gridLayout.setComponentAlignment(comboZustand, Alignment.MIDDLE_CENTER);
+        gridLayout.setComponentAlignment(comboKraftstoffart, Alignment.MIDDLE_CENTER);
+        gridLayout.setComponentAlignment(kilometer, Alignment.MIDDLE_CENTER);
+        gridLayout.setComponentAlignment(comboFarbe, Alignment.MIDDLE_CENTER);
         gridLayout.setComponentAlignment(preis, Alignment.MIDDLE_CENTER);
         gridLayout.setComponentAlignment(autoEintragenButton, Alignment.MIDDLE_RIGHT);
 

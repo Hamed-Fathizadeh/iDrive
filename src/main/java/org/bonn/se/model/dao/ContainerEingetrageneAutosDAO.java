@@ -40,8 +40,9 @@ public class ContainerEingetrageneAutosDAO {
                 AutoEintragDTO res = new AutoEintragDTO(set.getInt("auto_id"), set.getString("marke"), set.getString("modell")
                         , set.getString("kurz_beschreibung"), set.getString("lang_beschreibung"), set.getInt("baujahr")
                         , set.getBoolean("automatik"), set.getInt("anzahl_sitzplaetze"), set.getInt("anzahl_tueren")
-                        , set.getDouble("preis_pro_tag"), set.getBoolean("klimaanlage"), set.getString("auto_typ")
-                        , set.getString("autokennzeichen"), set.getInt("personalnummer")
+                        , set.getInt("preis"), set.getBoolean("klimaanlage"), set.getString("auto_typ")
+                        , set.getString("zustand"), set.getInt("kilometer"),set.getString("kraftstoffart"),
+                        set.getString("aussenfarbe"),set.getInt("personalnummer")
                 );
 
                 liste.add(res);
@@ -60,7 +61,8 @@ public class ContainerEingetrageneAutosDAO {
     }
 
     public List<AutoEintragDTO> loadSuche(String comboMarke, String comboModell, String comboBaujahr,
-                                          String suchArt, String comboKlimaanlage, String comboAnzahlSitze, String comboAnzahlTuere) throws DatabaseException, SQLException {
+                                          String suchArt, String comboKlimaanlage, String comboAnzahlSitze, String comboAnzahlTuere,
+                                          String comboZustand, String comboKraftstoffart, String comboFarbe, int preis, int kilometer) throws DatabaseException, SQLException {
         List<AutoEintragDTO> liste = new ArrayList<>();
         ResultSet set = null;
         Statement statement = JDBCConnection.getInstance().getStatement();
@@ -70,32 +72,44 @@ public class ContainerEingetrageneAutosDAO {
 
             StringBuilder sbMarke = new StringBuilder(comboMarke == null ? " " : " and marke = '" + comboMarke + "' ");
             StringBuilder sModell = new StringBuilder(comboModell == null ? " " : " and modell = '" + comboModell + "' ");
-            StringBuilder sbBaujahr = new StringBuilder(comboBaujahr == null ? " " : " and baujahr = " + Integer.parseInt(comboBaujahr) + " ");
+            StringBuilder sbBaujahr = new StringBuilder(comboBaujahr == null ? " " : " and baujahr >= " + Integer.parseInt(comboBaujahr) + " ");
             StringBuilder sbKlimaanlage = new StringBuilder(" ");
             StringBuilder sbAnzahlTueren = new StringBuilder(" ");
             StringBuilder sbAnzahlSitze = new StringBuilder(" ");
+            StringBuilder sZustand = new StringBuilder(" ");
+            StringBuilder sKraftstoffart = new StringBuilder(" ");
+            StringBuilder sFarbe = new StringBuilder(" ");
+            StringBuilder sPreis = new StringBuilder(" ");
+            StringBuilder sKilometer = new StringBuilder(" ");
 
 
             if(suchArt.equals("Erweitert")){
                  sbKlimaanlage = new StringBuilder(comboModell == null ? " " : comboKlimaanlage.equals("Ja")? " and klimaanlage  = true ": " and klimaanlage  = false "  );
                  sbAnzahlTueren = new StringBuilder(comboAnzahlTuere == null ? " " : " and anzahl_tueren = " + Integer.parseInt(comboAnzahlTuere) + " ");
                  sbAnzahlSitze = new StringBuilder(comboAnzahlSitze == null ? " " : " and anzahl_sitzplaetze = " + Integer.parseInt(comboAnzahlSitze) + " ");
+
+                 sZustand = new StringBuilder(sZustand == null ? " " : " and zustand = " + comboZustand + " ");
+                 sKraftstoffart = new StringBuilder(sKraftstoffart == null ? " " : " and kraftstoffart = " + comboKraftstoffart + " ");
+                 sFarbe = new StringBuilder(sFarbe == null ? " " : " and aussenfarbe = " + comboFarbe + " ");
+                 sPreis = new StringBuilder(sPreis == null ? " " : " and preis >= " + preis + " ");
+                 sKilometer = new StringBuilder(sKilometer == null ? " " : " and kilometer >= " + kilometer + " ");
             }
 
 
             System.out.println("select * from idrive.tab_auto"+
-                    " where 1 = 1 "+ sbMarke  + sModell + sbBaujahr + sbKlimaanlage +sbAnzahlTueren+sbAnzahlSitze);
+                    " where 1 = 1 "+ sbMarke  + sModell + sbBaujahr + sbKlimaanlage +sbAnzahlTueren+sbAnzahlSitze+sZustand+sKraftstoffart+sFarbe+sPreis+sKilometer);
 
             set = statement.executeQuery("select * from idrive.tab_auto"+
-                                             " where 1 = 1 "+ sbMarke  + sModell + sbBaujahr + sbKlimaanlage +sbAnzahlTueren+sbAnzahlSitze);
+                                             " where 1 = 1 "+ sbMarke  + sModell + sbBaujahr + sbKlimaanlage +sbAnzahlTueren+sbAnzahlSitze +sZustand+sKraftstoffart+sFarbe+sPreis+sKilometer);
 
 
             while (set.next()) {
                 AutoEintragDTO res = new AutoEintragDTO(set.getInt("auto_id"), set.getString("marke"), set.getString("modell")
                         , set.getString("kurz_beschreibung"), set.getString("lang_beschreibung"), set.getInt("baujahr")
                         , set.getBoolean("automatik"), set.getInt("anzahl_sitzplaetze"), set.getInt("anzahl_tueren")
-                        , set.getDouble("preis_pro_tag"), set.getBoolean("klimaanlage"), set.getString("auto_typ")
-                        , set.getString("autokennzeichen"), set.getInt("personalnummer")
+                        , set.getInt("preis"), set.getBoolean("klimaanlage"), set.getString("auto_typ")
+                        , set.getString("zustand"), set.getInt("kilometer"),set.getString("kraftstoffart"),
+                        set.getString("aussenfarbe"),set.getInt("personalnummer")
                 );
 
                 liste.add(res);
@@ -129,8 +143,9 @@ public class ContainerEingetrageneAutosDAO {
                 AutoEintragDTO res = new AutoEintragDTO(set.getInt("auto_id"), set.getString("marke"), set.getString("modell")
                         , set.getString("kurz_beschreibung"), set.getString("lang_beschreibung"), set.getInt("baujahr")
                         , set.getBoolean("automatik"), set.getInt("anzahl_sitzplaetze"), set.getInt("anzahl_tueren")
-                        , set.getDouble("preis_pro_tag"), set.getBoolean("klimaanlage"), set.getString("auto_typ")
-                        , set.getString("autokennzeichen"), set.getInt("personalnummer")
+                        , set.getInt("preis"), set.getBoolean("klimaanlage"), set.getString("auto_typ")
+                        , set.getString("zustand"), set.getInt("kilometer"),set.getString("kraftstoffart"),
+                        set.getString("aussenfarbe"),set.getInt("personalnummer")
                 );
                 liste.add(res);
 

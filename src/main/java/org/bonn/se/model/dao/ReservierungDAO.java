@@ -24,8 +24,8 @@ public class ReservierungDAO extends AbstractDAO{
     }
 
     public void reservieren(ReservierungDTO reservierungDTO) throws DatabaseException {
-        String sql = "INSERT INTO idrive.tab_reservierung (kundennummer, auto_id, abholdatum, rueckgabedatum) " +
-                     "VALUES (?,?,?,?)";
+        String sql = "INSERT INTO idrive.tab_reservierung (kundennummer, auto_id, reservierungsdatum) " +
+                     "VALUES (?,?,?)";
 
         PreparedStatement statement = getPreparedStatement(sql);
         try {
@@ -33,8 +33,9 @@ public class ReservierungDAO extends AbstractDAO{
             Kunde kunde = (Kunde) UI.getCurrent().getSession().getAttribute(Roles.KUNDE);
             statement.setInt(1, kunde.getKundennummer());
             statement.setInt(2, reservierungDTO.getAuto_id());
-            statement.setTimestamp(3, reservierungDTO.getAbholdatum());
-            statement.setTimestamp(4, reservierungDTO.getRueckgabedatum());
+            statement.setTimestamp(3, reservierungDTO.getReservierungsdatum());
+
+            System.out.println(sql);//temp
 
             statement.executeUpdate();
             org.bonn.se.gui.window.ConfirmationWindow confWindow =  new org.bonn.se.gui.window.ConfirmationWindow("Auto wurde reserviert!");
@@ -59,9 +60,9 @@ public class ReservierungDAO extends AbstractDAO{
             Statement statement = JDBCConnection.getInstance().getStatement();
             set = statement.executeQuery("select * \n" +
                     "  from idrive.tab_reservierung\n" +
-                    " where '"+reservierungDTO.getAbholdatum()+"'  between abholdatum and rueckgabedatum\n" +
-                    "    or '"+reservierungDTO.getRueckgabedatum()+"'    between abholdatum and rueckgabedatum\n"+
-                    "    and auto_id = "+reservierungDTO.getAuto_id()
+                    " where '"+reservierungDTO.getReservierungsdatum()+"'  = reservierungsdatum\n" +
+                    "   and "+reservierungDTO.getKundennummer()+"   = kundennummer\n"+
+                    "   and auto_id = "+reservierungDTO.getAuto_id()
 
 
             );
@@ -88,7 +89,7 @@ public class ReservierungDAO extends AbstractDAO{
         try {
             Statement statement = JDBCConnection.getInstance().getStatement();
             set = statement.executeQuery("Select a.auto_id, a.marke, a.modell, a.kurz_beschreibung, a.kurz_beschreibung, a.lang_beschreibung, a.baujahr, a.automatik, a.anzahl_sitzplaetze, a.anzahl_tueren,\n" +
-                    "       a.preis_pro_tag, a.klimaanlage, a.auto_typ, a.autokennzeichen, r.abholdatum , r.rueckgabedatum \n" +
+                    "       a.preis, a.klimaanlage, a.auto_typ,a.zustand, a.kilometer, a.kraftstoffart, a.aussenfarbe, r.reservierungsdatum \n" +
                     "  from idrive.tab_auto a\n" +
                     "  join idrive.tab_reservierung r\n" +
                     "    on a.auto_id = r.auto_id\n" +
@@ -104,8 +105,8 @@ public class ReservierungDAO extends AbstractDAO{
                 ReservierungDTO res = new ReservierungDTO(kundennummer, set.getInt("auto_id"), set.getString("marke"),set.getString("modell")
                         , set.getString("kurz_beschreibung"), set.getString("lang_beschreibung"), set.getInt("baujahr")
                         , set.getBoolean("automatik"), set.getInt("anzahl_sitzplaetze"), set.getInt("anzahl_tueren")
-                        , set.getDouble("preis_pro_tag"), set.getBoolean("klimaanlage"), set.getString("auto_typ")
-                        , set.getString("autokennzeichen"), set.getTimestamp("abholdatum"),set.getTimestamp("rueckgabedatum")
+                        , set.getDouble("preis"), set.getBoolean("klimaanlage"), set.getString("auto_typ")
+                        , set.getString("zustand"), set.getInt("kilometer"),set.getString("kraftstoffart"),set.getString("aussenfarbe"),set.getTimestamp("reservierungsdatum")
                 );
 
                 liste.add(res);
@@ -126,7 +127,7 @@ public class ReservierungDAO extends AbstractDAO{
 
     public void stornieren(ReservierungDTO reservierungDTO) throws DatabaseException {
         String sql = "DELETE FROM idrive.tab_reservierung WHERE kundennummer = "+reservierungDTO.getKundennummer() +" and auto_id = " +
-                ""+reservierungDTO.getAuto_id()+ " and abholdatum = '"+reservierungDTO.getAbholdatum() +"' and rueckgabedatum = '"+reservierungDTO.getRueckgabedatum()+"'";
+                ""+reservierungDTO.getAuto_id()+ " and reservierungsdatum = '"+reservierungDTO.getReservierungsdatum()+"'";
 
         PreparedStatement statement = getPreparedStatement(sql);
         try {

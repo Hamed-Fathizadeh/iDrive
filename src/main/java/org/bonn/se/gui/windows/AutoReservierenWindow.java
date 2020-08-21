@@ -34,7 +34,7 @@ public class AutoReservierenWindow extends CustomWindow {
         gridLayout.setMargin(true);
 
         Label marke = new Label("<b>Marke</b>", ContentMode.HTML);
-        Label modell = new Label("<b>modell</b>", ContentMode.HTML);
+        Label modell = new Label("<b>Modell</b>", ContentMode.HTML);
         Label kurz_beschreibung = new Label("<b>Kurz beschreibung</b>", ContentMode.HTML);
         Label lang_beschreibung = new Label("<b>Lang beschreibung</b>", ContentMode.HTML);
         Label baujahr = new Label("<b>Baujahr</b>", ContentMode.HTML);
@@ -44,7 +44,11 @@ public class AutoReservierenWindow extends CustomWindow {
         Label preis_pro_tag = new Label("<b>Preis pro Tag</b>", ContentMode.HTML);
         Label klimaanlage = new Label("<b>Klimaanlage</b>", ContentMode.HTML);
         Label auto_type = new Label("<b>Auto Type</b>", ContentMode.HTML);
-        Label autokennzeichen = new Label("<b>Autokennzeichen</b>", ContentMode.HTML);
+        Label zustand = new Label("<b>Zustand</b>", ContentMode.HTML);
+        Label kilometer = new Label("<b>Kilometer</b>", ContentMode.HTML);
+        Label kraftstoffart = new Label("<b>Kraftstoffart</b>", ContentMode.HTML);
+        Label aussenfarbe = new Label("<b>Außenfarbe</b>", ContentMode.HTML);
+        Label preis = new Label("<b>Gesamtpreis</b>", ContentMode.HTML);
 
         Label markeD = new Label(autoEintragDTO.getMarke());
         Label modellD = new Label(autoEintragDTO.getModell());
@@ -52,10 +56,14 @@ public class AutoReservierenWindow extends CustomWindow {
         Label automatikD = new Label(autoEintragDTO.isAutomatik()?"Ja":"Nein");
         Label anzahl_sitzplaetzeD = new Label(""+autoEintragDTO.getAnzahl_sitzplaetze());
         Label anzahl_tuerenD = new Label(""+autoEintragDTO.getAnzahl_tueren());
-        Label preis_pro_tagD = new Label(""+autoEintragDTO.getPreis_pro_tag()+" Euro");
+        Label preis_pro_tagD = new Label(""+autoEintragDTO.getPreis()+" Euro");
         Label klimaanlageD = new Label(autoEintragDTO.isKlimaanlage()?"Ja":"Nein");
         Label auto_typeD = new Label(autoEintragDTO.getAuto_type());
-        Label autokennzeichenD = new Label(autoEintragDTO.getAutokennzeichen());
+        Label zustandD = new Label(autoEintragDTO.getZustand());
+        Label kilometerD = new Label(autoEintragDTO.getKilometer()+" km");
+        Label kraftstoffartD = new Label(autoEintragDTO.getKraftstoffart());
+        Label aussenfarbeD = new Label(autoEintragDTO.getAussenfarbe());
+        Label preisD = new Label(autoEintragDTO.getPreis()+" Euro");
 
         RichTextArea kurz_beschreibungD = new RichTextArea();
         kurz_beschreibungD.setSizeFull();
@@ -72,7 +80,7 @@ public class AutoReservierenWindow extends CustomWindow {
                 "minor-bidi;mso-bidi-theme-font:minor-bidi;color:#2F5597;mso-themecolor:accent1;\n" +
                 "mso-themeshade:191;mso-style-textfill-fill-color:#2F5597;mso-style-textfill-fill-themecolor:\n" +
                 "accent1;mso-style-textfill-fill-alpha:100.0%;mso-style-textfill-fill-colortransforms:\n" +
-                "lumm=75000'>Information über Ihre augewählte Auto!<o:p></o:p></span></b></p>";
+                "lumm=75000'>Information über Ihre ausgewählte Auto!<o:p></o:p></span></b></p>";
 
         Label lSpruch = new Label(ls1, ContentMode.HTML);
 
@@ -83,24 +91,29 @@ public class AutoReservierenWindow extends CustomWindow {
         gridLayout.addComponent(baujahr,0,11);              gridLayout.addComponent(baujahrD,1,11);
         gridLayout.addComponent(automatik,0,12);            gridLayout.addComponent(automatikD,1,12);
         gridLayout.addComponent(anzahl_sitzplaetze,0,13);   gridLayout.addComponent(anzahl_sitzplaetzeD,1,13);
+        gridLayout.addComponent(kilometer,0,14);            gridLayout.addComponent(kilometerD,1,14);
+        gridLayout.addComponent(kraftstoffart,0,15);        gridLayout.addComponent(kraftstoffartD,1,15);
+
 
         gridLayout.addComponent(anzahl_tueren,2,9);         gridLayout.addComponent(anzahl_tuerenD,3,9);
         gridLayout.addComponent(preis_pro_tag,2,10);        gridLayout.addComponent(preis_pro_tagD,3,10);
         gridLayout.addComponent(klimaanlage,2,11);          gridLayout.addComponent(klimaanlageD,3,11);
         gridLayout.addComponent(auto_type,2,12);            gridLayout.addComponent(auto_typeD,3,12);
-        gridLayout.addComponent(autokennzeichen,2,13);      gridLayout.addComponent(autokennzeichenD,3,13);
+        gridLayout.addComponent(zustand,2,13);              gridLayout.addComponent(zustandD,3,13);
+        gridLayout.addComponent(aussenfarbe,2,14);          gridLayout.addComponent(aussenfarbeD,3,14);
+        gridLayout.addComponent (preis, 2,15);              gridLayout.addComponent (preisD, 3,15);
 
         Label platzhalter1 = new Label ( "&nbsp;", ContentMode.HTML);
-        gridLayout.addComponent(platzhalter1,0,14);
+        gridLayout.addComponent(platzhalter1,0,16);
 
-        gridLayout.addComponent(kurz_beschreibung,0,15);
-        gridLayout.addComponent(kurz_beschreibungD,0,16,4,16);
+        gridLayout.addComponent(kurz_beschreibung,0,17);
+        gridLayout.addComponent(kurz_beschreibungD,0,18,4,18);
 
         Label platzhalter2 = new Label ( "&nbsp;", ContentMode.HTML);
-        gridLayout.addComponent(platzhalter2,0,17);
+        gridLayout.addComponent(platzhalter2,0,19);
 
-        gridLayout.addComponent(lang_beschreibung,0,18);
-        gridLayout.addComponent(lang_beschreibungD,0,19,4,19);
+        gridLayout.addComponent(lang_beschreibung,0,20);
+        gridLayout.addComponent(lang_beschreibungD,0,21,4,21);
 
         String ls2 = "<p class=MsoNormal><b><span style='font-size:20.0pt;line-height:107%;\n" +
                 "font-family:\"Arial\",sans-serif;mso-ascii-theme-font:minor-bidi;mso-hansi-theme-font:\n" +
@@ -110,24 +123,18 @@ public class AutoReservierenWindow extends CustomWindow {
                 "lumm=75000'> Auto reservieren &#128663<o:p></o:p></span></b></p>";
 
         Label lSpruch2 = new Label(ls2, ContentMode.HTML);
-        gridLayout.addComponent(lSpruch2,0,20,3,20);
+        gridLayout.addComponent(lSpruch2,0,22,3,22);
 
         gridLayout.setComponentAlignment(lSpruch, Alignment.BOTTOM_CENTER);
         gridLayout.setComponentAlignment(lSpruch2, Alignment.BOTTOM_CENTER);
 
-        Label datePickerAbholLabel = new Label("<b>Abholdatum</b>", ContentMode.HTML);
+        Label datePickerAbholLabel = new Label("<b>Reservierungsdatum</b>", ContentMode.HTML);
         DateTimeField datePickerAbhol = new DateTimeField ();
         datePickerAbhol.setValue (LocalDateTime.now());
 
-        gridLayout.addComponent (datePickerAbholLabel, 0,21);
-        gridLayout.addComponent (datePickerAbhol, 0,22);
+        gridLayout.addComponent (datePickerAbholLabel, 0,23);
+        gridLayout.addComponent (datePickerAbhol, 0,24);
 
-        Label datePickerRuecklLabel = new Label("<b>Rückgabedatum</b>", ContentMode.HTML);
-        DateTimeField datePickerRueck = new DateTimeField ();
-        datePickerRueck.setValue (LocalDateTime.now());
-
-        gridLayout.addComponent (datePickerRuecklLabel, 1,21);
-        gridLayout.addComponent (datePickerRueck, 1,22);
 
         Button reservieungButton = new Button("Reservieren");
         reservieungButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
@@ -135,23 +142,7 @@ public class AutoReservierenWindow extends CustomWindow {
         gridLayout.addComponent(reservieungButton,4,23);
         gridLayout.setComponentAlignment(reservieungButton, Alignment.BOTTOM_RIGHT);
 
-        Label preis = new Label("<b>Gesamtpreis</b>", ContentMode.HTML);
-        Label preisD = new Label("");
 
-        gridLayout.addComponent (preis, 2,21);
-        gridLayout.addComponent (preisD, 2,22);
-
-        datePickerRueck.addValueChangeListener( clickEvent -> {
-            long days = Period.between(datePickerAbhol.getValue().toLocalDate(), datePickerRueck.getValue().toLocalDate()).getDays();
-            preisD.setValue( days * autoEintragDTO.getPreis_pro_tag()+"0 Euro" );
-
-        });
-
-        datePickerAbhol.addValueChangeListener( clickEvent -> {
-            long days = Period.between(datePickerAbhol.getValue().toLocalDate(), datePickerRueck.getValue().toLocalDate()).getDays();
-            preisD.setValue( days * autoEintragDTO.getPreis_pro_tag()+"0 Euro" );
-
-        });
 
         reservieungButton.addClickListener((Button.ClickListener) clickEvent -> {
             Window subWindow = new Window("Reservierung");
@@ -178,8 +169,7 @@ public class AutoReservierenWindow extends CustomWindow {
                 //new LocalDateTimeToDateConverter.convertToModel(
                 ReservierungDTO reservierungDTO = new ReservierungDTO();
                 reservierungDTO.setAuto_id(autoEintragDTO.getAuto_id());
-                reservierungDTO.setAbholdatum( Timestamp.valueOf(datePickerAbhol.getValue()));
-                reservierungDTO.setRueckgabedatum(Timestamp.valueOf(datePickerRueck.getValue()));
+                reservierungDTO.setReservierungsdatum( Timestamp.valueOf(datePickerAbhol.getValue()));
                 Timestamp[] resDatum = ReservierungControl.getInstance().istReserviert(reservierungDTO);
                 if( resDatum[0] != null){
                     org.bonn.se.gui.window.ConfirmationWindow confWindow = new org.bonn.se.gui.window.ConfirmationWindow("Das Auto ist von: "+resDatum[0]+" bis: "+resDatum[1]+" reserviert! \n " +

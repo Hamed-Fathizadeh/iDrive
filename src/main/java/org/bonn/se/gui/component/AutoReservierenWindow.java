@@ -32,17 +32,20 @@ public class AutoReservierenWindow extends CustomWindow {
         gridLayout.setMargin(true);
 
         Label marke = new Label("<b>Marke</b>", ContentMode.HTML);
-        Label modell = new Label("<b>modell</b>", ContentMode.HTML);
+        Label modell = new Label("<b>Modell</b>", ContentMode.HTML);
         Label kurz_beschreibung = new Label("<b>Kurz beschreibung</b>", ContentMode.HTML);
         Label lang_beschreibung = new Label("<b>Lang beschreibung</b>", ContentMode.HTML);
         Label baujahr = new Label("<b>Baujahr</b>", ContentMode.HTML);
         Label automatik = new Label("<b>Automatik</b>", ContentMode.HTML);
         Label anzahl_sitzplaetze = new Label("<b>Anzahl sitzplaetze</b>", ContentMode.HTML);
         Label anzahl_tueren = new Label("<b>Anzahl Türen</b>", ContentMode.HTML);
-        Label preis_pro_tag = new Label("<b>Preis pro Tag</b>", ContentMode.HTML);
+        Label preis = new Label("<b>Preis</b>", ContentMode.HTML);
         Label klimaanlage = new Label("<b>Klimaanlage</b>", ContentMode.HTML);
         Label auto_type = new Label("<b>Auto Type</b>", ContentMode.HTML);
-        Label autokennzeichen = new Label("<b>Autokennzeichen</b>", ContentMode.HTML);
+        Label zustand = new Label("<b>Zustand</b>", ContentMode.HTML);
+        Label kilometer = new Label("<b>Kilometer</b>", ContentMode.HTML);
+        Label kraftstoffart = new Label("<b>Kraftstoffart</b>", ContentMode.HTML);
+        Label aussenfarbe = new Label("<b>Außenfarbe</b>", ContentMode.HTML);
 
         Label markeD = new Label(autoEintragDTO.getMarke());
         Label modellD = new Label(autoEintragDTO.getModell());
@@ -50,10 +53,13 @@ public class AutoReservierenWindow extends CustomWindow {
         Label automatikD = new Label(autoEintragDTO.isAutomatik()?"Ja":"Nein");
         Label anzahl_sitzplaetzeD = new Label(""+autoEintragDTO.getAnzahl_sitzplaetze());
         Label anzahl_tuerenD = new Label(""+autoEintragDTO.getAnzahl_tueren());
-        Label preis_pro_tagD = new Label(""+autoEintragDTO.getPreis_pro_tag()+" Euro");
+        Label preisD = new Label(""+autoEintragDTO.getPreis()+" Euro");
         Label klimaanlageD = new Label(autoEintragDTO.isKlimaanlage()?"Ja":"Nein");
         Label auto_typeD = new Label(autoEintragDTO.getAuto_type());
-        Label autokennzeichenD = new Label(autoEintragDTO.getAutokennzeichen());
+        Label zustandD = new Label(autoEintragDTO.getZustand());
+        Label kilometerD = new Label(autoEintragDTO.getKilometer()+"km");
+        Label kraftstoffartD = new Label(autoEintragDTO.getKraftstoffart());
+        Label aussenfarbeD = new Label(autoEintragDTO.getAussenfarbe());
 
         RichTextArea kurz_beschreibungD = new RichTextArea();
         kurz_beschreibungD.setSizeFull();
@@ -81,12 +87,15 @@ public class AutoReservierenWindow extends CustomWindow {
         gridLayout.addComponent(baujahr,0,11);              gridLayout.addComponent(baujahrD,1,11);
         gridLayout.addComponent(automatik,0,12);            gridLayout.addComponent(automatikD,1,12);
         gridLayout.addComponent(anzahl_sitzplaetze,0,13);   gridLayout.addComponent(anzahl_sitzplaetzeD,1,13);
+        gridLayout.addComponent(kilometer,0,14);            gridLayout.addComponent(kilometerD,1,14);
+        gridLayout.addComponent(kraftstoffart,0,15);        gridLayout.addComponent(kraftstoffartD,1,15);
 
         gridLayout.addComponent(anzahl_tueren,2,9);         gridLayout.addComponent(anzahl_tuerenD,3,9);
-        gridLayout.addComponent(preis_pro_tag,2,10);        gridLayout.addComponent(preis_pro_tagD,3,10);
+        gridLayout.addComponent(preis,2,10);        gridLayout.addComponent(preisD,3,10);
         gridLayout.addComponent(klimaanlage,2,11);          gridLayout.addComponent(klimaanlageD,3,11);
         gridLayout.addComponent(auto_type,2,12);            gridLayout.addComponent(auto_typeD,3,12);
-        gridLayout.addComponent(autokennzeichen,2,13);      gridLayout.addComponent(autokennzeichenD,3,13);
+        gridLayout.addComponent(zustand,2,13);              gridLayout.addComponent(zustandD,3,13);
+        gridLayout.addComponent(aussenfarbe,2,14);          gridLayout.addComponent(aussenfarbeD,3,14);
 
         Label platzhalter1 = new Label ( "&nbsp;", ContentMode.HTML);
         gridLayout.addComponent(platzhalter1,0,14);
@@ -113,19 +122,13 @@ public class AutoReservierenWindow extends CustomWindow {
         gridLayout.setComponentAlignment(lSpruch, Alignment.BOTTOM_CENTER);
         gridLayout.setComponentAlignment(lSpruch2, Alignment.BOTTOM_CENTER);
 
-        Label datePickerAbholLabel = new Label("<b>Abholdatum</b>", ContentMode.HTML);
+        Label datePickerAbholLabel = new Label("<b>Reservierungsdatum</b>", ContentMode.HTML);
         DateTimeField datePickerAbhol = new DateTimeField ();
         datePickerAbhol.setValue (LocalDateTime.now());
 
         gridLayout.addComponent (datePickerAbholLabel, 0,21);
         gridLayout.addComponent (datePickerAbhol, 0,22);
 
-        Label datePickerRuecklLabel = new Label("<b>Rückgabedatum</b>", ContentMode.HTML);
-        DateTimeField datePickerRueck = new DateTimeField ();
-        datePickerRueck.setValue (LocalDateTime.now().plusDays(7));
-
-        gridLayout.addComponent (datePickerRuecklLabel, 1,21);
-        gridLayout.addComponent (datePickerRueck, 1,22);
 
         Button reservieungButton = new Button("Reservieren");
         reservieungButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
@@ -158,8 +161,7 @@ public class AutoReservierenWindow extends CustomWindow {
                 //new LocalDateTimeToDateConverter.convertToModel(
                 ReservierungDTO reservierungDTO = new ReservierungDTO();
                 reservierungDTO.setAuto_id(autoEintragDTO.getAuto_id());
-                reservierungDTO.setAbholdatum( Timestamp.valueOf(datePickerAbhol.getValue()));
-                reservierungDTO.setRueckgabedatum(Timestamp.valueOf(datePickerRueck.getValue()));
+                reservierungDTO.setReservierungsdatum( Timestamp.valueOf(datePickerAbhol.getValue()));
 
                 ReservierungControl.getInstance().reservieren(reservierungDTO);
 

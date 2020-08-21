@@ -4,6 +4,7 @@ import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
 import org.bonn.se.control.ReservierungControl;
+import org.bonn.se.gui.windows.AutoReservierenWindow;
 import org.bonn.se.model.objects.dto.ReservierungDTO;
 import org.bonn.se.services.util.Roles;
 import org.bonn.se.services.util.Views;
@@ -52,12 +53,7 @@ import java.util.List;
                     subWindow.setWidth("500px");
                     subWindow.setHeight("100px");
 
-
-
                     subContent.addComponent(new Label("Möchten Sie Ihre Reservierung Stornieren?"),0,0);
-
-
-
 
                     Button neinButton = new Button("Nein");
                     subContent.addComponent(neinButton,0,1);
@@ -124,20 +120,12 @@ import java.util.List;
                 this.addColumn(ReservierungDTO::getMarke).setCaption("Marke").setWidth(150.0);
                 this.addColumn(ReservierungDTO::getModell).setCaption("Modell").setWidth(150);
                 this.addColumn(ReservierungDTO::getKurz_beschreibung).setCaption("Kurz Beschreibung").setWidth(400);
-                //this.addColumn(ReservierungDTO::getBaujahr).setCaption("Baujahr").setWidth(150);
-                //this.addColumn(auto ->(auto.isAutomatik()? "Ja":"Nein")).setCaption("Automatik").setWidth(150);
-                //this.addColumn(ReservierungDTO::getAnzahl_tueren).setCaption("Anzahl Türen").setWidth(150);
-                //this.addColumn(auto ->(auto.isKlimaanlage()? "Ja":"Nein")).setCaption("Klimaanlage").setWidth(150);
+                this.addColumn(ReservierungDTO::getZustand).setCaption("Zustand").setWidth(150);
                 this.addColumn(ReservierungDTO::getAuto_type).setCaption("Auto Type").setWidth(150);
                 this.addColumn(p -> {
-                String  sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(p.getAbholdatum());
+                String  sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(p.getReservierungsdatum());
                 return sdf;
-                }).setCaption("Abholdatum").setWidth(190);
-
-                this.addColumn(p -> {
-                String  sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(p.getRueckgabedatum());
-                return sdf;
-                }).setCaption("Rückgabedatum").setWidth(190);
+                }).setCaption("Reservierungsdatum").setWidth(190);
                 this.addColumn(ReservierungDTO::getAnzahl_sitzplaetze).setCaption("Anzahl Sitzplaetze").setWidth(150);
                 this.addColumn(ReservierungDTO::getAnzahl_tueren).setCaption("Anzahl Türen").setWidth(150);
 

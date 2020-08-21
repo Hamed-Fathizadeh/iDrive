@@ -36,9 +36,11 @@ public class SucheControl  implements Suche {
 
     @Override
     public DataProvider<AutoEintragDTO,Void> einfacheSuche(String comboMarke, String comboModell,
-                                                           String comboBaujahr, String suchArt, String comboKlimaanlage,String comboAnzahlSitze, String comboAnzahlTuere) {
+                                                           String comboBaujahr, String suchArt, String comboKlimaanlage,String comboAnzahlSitze, String comboAnzahlTuere,
+                                                           String comboZustand, String comboKraftstoffart, String comboFarbe, int preis, int kilometer) {
         try {
-            autoEintragDTO = ContainerEingetrageneAutosDAO.getInstance().loadSuche( comboMarke,  comboModell,  comboBaujahr,  suchArt,  comboKlimaanlage, comboAnzahlSitze,  comboAnzahlTuere);
+            autoEintragDTO = ContainerEingetrageneAutosDAO.getInstance().loadSuche( comboMarke,  comboModell,  comboBaujahr,  suchArt,  comboKlimaanlage, comboAnzahlSitze,  comboAnzahlTuere,
+                                                                                    comboZustand,  comboKraftstoffart,  comboFarbe,  preis,  kilometer);
         } catch (DatabaseException | SQLException e) {
             Logger.getLogger(SucheControl.class.getName()).log(Level.SEVERE,null,e);
         }

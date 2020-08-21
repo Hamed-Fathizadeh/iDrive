@@ -11,25 +11,38 @@ public class Auto {
     private boolean automatik;
     private int anzahl_sitzplaetze;
     private int anzahl_tueren;
-    private double preis_pro_tag;
+    private int preis;
     private boolean klimaanlage;
     private String auto_type;
-    private String autokennzeichen;
+    private String zustand;
+    private int kilometer;
+    private String kraftstoffart;
+    private String aussenfarbe;
+
 
     public Auto(){
-        setAuto_id(auto_id);
-        setMarke(marke);
-        setModell(modell);
-        setKurz_beschreibung(kurz_beschreibung);
-        setLang_beschreibung(lang_beschreibung);
-        setBaujahr(baujahr);
-        setAutomatik(automatik);
-        setAnzahl_sitzplaetze(anzahl_sitzplaetze);
-        setAnzahl_tueren(anzahl_tueren);
-        setPreis_pro_tag(preis_pro_tag);
-        setKlimaanlage(klimaanlage);
-        setAuto_type(auto_type);
-        setAutokennzeichen(autokennzeichen);
+
+    }
+
+    public Auto(int auto_id, String marke, String modell, String kurz_beschreibung, String lang_beschreibung, int baujahr,
+                          boolean automatik, int anzahl_sitzplaetze, int anzahl_tueren, int preis, boolean klimaanlage,
+                          String auto_type, String zustand, int kilometer, String kraftstoffart, String aussenfarbe) {
+        this.auto_id = auto_id;
+        this.marke = marke;
+        this.modell = modell;
+        this.kurz_beschreibung = kurz_beschreibung;
+        this.lang_beschreibung = lang_beschreibung;
+        this.baujahr = baujahr;
+        this.automatik = automatik;
+        this.anzahl_sitzplaetze = anzahl_sitzplaetze;
+        this.anzahl_tueren = anzahl_tueren;
+        this.preis = preis;
+        this.klimaanlage = klimaanlage;
+        this.auto_type = auto_type;
+        this.zustand = zustand;
+        this.kilometer = kilometer;
+        this.kraftstoffart = kraftstoffart;
+        this.aussenfarbe = aussenfarbe;
     }
 
     public int getAuto_id() {
@@ -104,14 +117,6 @@ public class Auto {
         this.anzahl_tueren = anzahl_tueren;
     }
 
-    public double getPreis_pro_tag() {
-        return preis_pro_tag;
-    }
-
-    public void setPreis_pro_tag(double preis_pro_tag) {
-        this.preis_pro_tag = preis_pro_tag;
-    }
-
     public boolean isKlimaanlage() {
         return klimaanlage;
     }
@@ -128,11 +133,45 @@ public class Auto {
         this.auto_type = auto_type;
     }
 
-    public String getAutokennzeichen() {
-        return autokennzeichen;
+    public int getPreis() {
+        return preis;
     }
 
-    public void setAutokennzeichen(String autokennzeichen) {
-        this.autokennzeichen = autokennzeichen;
+    public void setPreis(int preis) {
+        this.preis = preis;
     }
+
+    public String getZustand() {
+        return zustand;
+    }
+
+    public void setZustand(String zustand) {
+        this.zustand = zustand;
+    }
+
+    public int getKilometer() {
+        return kilometer;
+    }
+
+    public void setKilometer(int kilometer) {
+        this.kilometer = kilometer;
+    }
+
+    public String getKraftstoffart() {
+        return kraftstoffart;
+    }
+
+    public void setKraftstoffart(String kraftstoffart) {
+        this.kraftstoffart = kraftstoffart;
+    }
+
+    public String getAussenfarbe() {
+        return aussenfarbe;
+    }
+
+    public void setAussenfarbe(String aussenfarbe) {
+        this.aussenfarbe = aussenfarbe;
+    }
+
+
 }

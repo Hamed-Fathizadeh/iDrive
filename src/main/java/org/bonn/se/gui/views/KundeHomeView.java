@@ -56,7 +56,7 @@ public class KundeHomeView  extends VerticalLayout implements View {
 
         Label lSpruch = new Label(ls3, ContentMode.HTML);
 
-        GridLayout searchGrid = new GridLayout(7, 4);
+        GridLayout searchGrid = new GridLayout(8, 6);
         searchGrid.setMargin(true);
         searchGrid.setSizeFull();
 
@@ -110,33 +110,47 @@ public class KundeHomeView  extends VerticalLayout implements View {
         comboAutoType.setWidth(300.0f, Unit.PIXELS);
         comboAutoType.setItems("Cabrio","Limousine","SUV","Coupe","Kombi","Van","Transporter");
 
-        RegistrationTextField preis = new RegistrationTextField("Preis Pro Tag");
-        preis.setWidth(300.0f, Unit.PIXELS);
-
         RegistrationTextField kennzeichen = new RegistrationTextField("Autokennzeichen");
         kennzeichen.setWidth(300.0f, Unit.PIXELS);
 
         CheckBox erwSuche = new CheckBox("Erweiterte Suche");
 
-        ComboBox<String> comboBranche = new ComboBox<>();
-        DateField wannDatum = new DateField();
         ComboBox<String> comboKlimaanlage = new ComboBox<>("Klimaanlage");
         ComboBox<String> comboAnzahlSitze = new ComboBox<>("Anzahl Sitze");
         ComboBox<String> comboAnzahlTuere = new ComboBox<>("Anzahl Türe");
+        ComboBox<String> comboZustand = new ComboBox<>("Zustand");
+        ComboBox<String> comboKraftstoffart = new ComboBox<>("Kraftstoffart");
+        ComboBox<String> comboFarbe = new ComboBox<>("Außenfarbe");
+        ComboBox<Integer> kilometer = new ComboBox("Kilometer");
+        ComboBox<Integer> preis = new ComboBox("Preis");
+
+
+
+
 
         comboKlimaanlage.setVisible(false);
         comboAnzahlSitze.setVisible(false);
         comboAnzahlTuere.setVisible(false);
+        comboZustand.setVisible(false);
+        comboKraftstoffart.setVisible(false);
+        comboFarbe.setVisible(false);
+        kilometer.setVisible(false);
+        preis.setVisible(false);
 
         //GridLayout Suche
         searchGrid.addComponent(lSpruch,0,0,6,0);
         searchGrid.addComponent(comboMarke,2,1);
         searchGrid.addComponent(comboModell,3,1);
         searchGrid.addComponent(comboBaujahr,4,1);
-        searchGrid.addComponent(erwSuche,6,3);
         searchGrid.addComponent(comboKlimaanlage,2,2);
         searchGrid.addComponent(comboAnzahlSitze,3,2);
         searchGrid.addComponent(comboAnzahlTuere,4,2);
+        searchGrid.addComponent(comboZustand,2,3);
+        searchGrid.addComponent(comboKraftstoffart,3,3);
+        searchGrid.addComponent(comboFarbe,4,3);
+        searchGrid.addComponent(kilometer,2,4);
+        searchGrid.addComponent(preis,3,4);
+        searchGrid.addComponent(erwSuche,6,5);
 
         searchGrid.setComponentAlignment(lSpruch, Alignment.BOTTOM_CENTER);
        // searchGrid.setComponentAlignment(comboOrtBund, Alignment.BOTTOM_LEFT);
@@ -163,30 +177,70 @@ public class KundeHomeView  extends VerticalLayout implements View {
                 comboAnzahlTuere.setWidth(300.0f, Unit.PIXELS);
                 comboAnzahlTuere.setItems("1", "2", "3", "4", "5");
 
+                comboZustand.setWidth(300.0f, Unit.PIXELS);
+                comboZustand.setItems("Neu","Gebraucht","Tageszulassung","Jahreswagen","Oldtimer","Vorführfahrzeug","Fahrtauglich");
+
+                comboKraftstoffart.setWidth(300.0f, Unit.PIXELS);
+                comboKraftstoffart.setItems("Benzin","Diesel","Elektro","Hybrid (Benzin/Elektro)","Hybrid (Diesel / Elektro)","Autogas (LPG)",
+                        "Ethanol (FFV, E85 etc.)", "Wasserstoff");
+
+                comboFarbe.setWidth(300.0f, Unit.PIXELS);
+                comboFarbe.setItems("Beige","Schwarz","Blau","Braun","Gold","Grün","Grau", "Orange", "Violett", "Rot",
+                        "Silber", "Weiß", "Gelb", "Metallic");
+
+                preis.setWidth(300.0f, Unit.PIXELS);
+                List<Integer> lPreis = new ArrayList<Integer>();
+                for(int i = 500; i <= 100000; i+= 500 ){
+                    lPreis.add(i);
+                }
+                preis.setItems(lPreis);
+
+                kilometer.setWidth(300.0f, Unit.PIXELS);
+                List<Integer> lkilometer = new ArrayList<Integer>();
+                for(int i = 0; i <= 150000; i+= 5000 ){
+                    lkilometer.add(i);
+                }
+                kilometer.setItems(lkilometer);
 
                 //EVENTUELL NOCH FOR-SCHLEIFE HIER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 comboKlimaanlage.addValueChangeListener((HasValue.ValueChangeListener<String>) event1 -> {
 
-                    DataProvider<AutoEintragDTO, Void> dataProvider = suche.einfacheSuche(comboMarke.getValue(), comboModell.getValue(), comboBaujahr.getValue(), suchArt, comboKlimaanlage.getValue(), comboAnzahlSitze.getValue(), comboAnzahlTuere.getValue());
+                    DataProvider<AutoEintragDTO, Void> dataProvider = suche.einfacheSuche(comboMarke.getValue(), comboModell.getValue(), comboBaujahr.getValue(),
+                            suchArt, comboKlimaanlage.getValue(), comboAnzahlSitze.getValue(), comboAnzahlTuere.getValue(), comboZustand.getValue(),
+                            comboKraftstoffart.getValue(), comboFarbe.getValue(), preis.getValue() == null? 0 : preis.getValue() , kilometer.getValue()== null? 0 : kilometer.getValue());
                     grid1.setDataProvider(dataProvider);
                 });
 
                 comboAnzahlSitze.addValueChangeListener((HasValue.ValueChangeListener<String>) event1 -> {
-                    DataProvider<AutoEintragDTO, Void> dataProvider = suche.einfacheSuche(comboMarke.getValue(), comboModell.getValue(), comboBaujahr.getValue(), suchArt, comboKlimaanlage.getValue(), comboAnzahlSitze.getValue(), comboAnzahlTuere.getValue());
+                    DataProvider<AutoEintragDTO, Void> dataProvider = suche.einfacheSuche(comboMarke.getValue(), comboModell.getValue(), comboBaujahr.getValue(), suchArt, comboKlimaanlage.getValue(),
+                            comboAnzahlSitze.getValue(), comboAnzahlTuere.getValue(), comboZustand.getValue(), comboKraftstoffart.getValue(),
+                            comboFarbe.getValue(), preis.getValue() == null? 0 : preis.getValue() , kilometer.getValue()== null? 0 : kilometer.getValue());
                     grid1.setDataProvider(dataProvider);
                 });
                 comboAnzahlTuere.addValueChangeListener((HasValue.ValueChangeListener<String>) event2 -> {
-                    DataProvider<AutoEintragDTO, Void> dataProvider = suche.einfacheSuche(comboMarke.getValue(), comboModell.getValue(), comboBaujahr.getValue(), suchArt, comboKlimaanlage.getValue(), comboAnzahlSitze.getValue(), comboAnzahlTuere.getValue());
+                    DataProvider<AutoEintragDTO, Void> dataProvider = suche.einfacheSuche(comboMarke.getValue(), comboModell.getValue(), comboBaujahr.getValue(),
+                            suchArt, comboKlimaanlage.getValue(), comboAnzahlSitze.getValue(), comboAnzahlTuere.getValue(), comboZustand.getValue(),
+                            comboKraftstoffart.getValue(), comboFarbe.getValue(), preis.getValue() == null? 0 : preis.getValue() , kilometer.getValue()== null? 0 : kilometer.getValue());
                     grid1.setDataProvider(dataProvider);
 
                 });
                 comboKlimaanlage.setVisible(true);
                 comboAnzahlSitze.setVisible(true);
                 comboAnzahlTuere.setVisible(true);
+                comboZustand.setVisible(true);
+                comboKraftstoffart.setVisible(true);
+                comboFarbe.setVisible(true);
+                preis.setVisible(true);
+                kilometer.setVisible(true);
             } else {
                 comboKlimaanlage.setVisible(false);
                 comboAnzahlSitze.setVisible(false);
                 comboAnzahlTuere.setVisible(false);
+                comboZustand.setVisible(false);
+                comboKraftstoffart.setVisible(false);
+                comboFarbe.setVisible(false);
+                preis.setVisible(false);
+                kilometer.setVisible(false);
 
                 comboKlimaanlage.clear();
                 comboAnzahlSitze.clear();
@@ -223,7 +277,8 @@ public class KundeHomeView  extends VerticalLayout implements View {
         for (int i = 0; i < 3; i++) {
             ((ComboBox)searchGrid.getComponent(i+2,1)).addValueChangeListener((HasValue.ValueChangeListener) event -> {
                 //Datenabfrage
-                DataProvider<AutoEintragDTO,Void> dataProvider = suche.einfacheSuche(comboMarke.getValue(),comboModell.getValue(),comboBaujahr.getValue(),suchArt,comboKlimaanlage.getValue(),comboAnzahlSitze.getValue(),comboAnzahlTuere.getValue());
+                DataProvider<AutoEintragDTO,Void> dataProvider = suche.einfacheSuche(comboMarke.getValue(),comboModell.getValue(),comboBaujahr.getValue(),suchArt, comboKlimaanlage.getValue(),comboAnzahlSitze.getValue(),comboAnzahlTuere.getValue(), comboZustand.getValue(), comboKraftstoffart.getValue(),
+                        comboFarbe.getValue(),preis.getValue() == null? 0 : preis.getValue() , kilometer.getValue()== null? 0 : kilometer.getValue());
                 grid1.setDataProvider(dataProvider);
                 grid1.setCaption("Anzahl der Ergebisse: " + suche.getRowsCount());
                 grid1.setVisible(true);
@@ -241,7 +296,7 @@ public class KundeHomeView  extends VerticalLayout implements View {
 
 //---------------SUCHE ENDE ------------------------------------------------------------------------------------------
 
-
+// baiad chck besche
             ContainerEingetrageneAutos containerEingetrageneAutos = ContainerEingetrageneAutos.getInstance();
             containerEingetrageneAutos.loadAll();
             List<AutoEintragDTO> autoListe = containerEingetrageneAutos.getListe();

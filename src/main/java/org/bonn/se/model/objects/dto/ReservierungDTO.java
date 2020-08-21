@@ -1,15 +1,12 @@
 package org.bonn.se.model.objects.dto;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public class ReservierungDTO {
 
     private int kundennummer;
     private int auto_id;
-    private Timestamp abholdatum;
-    private Timestamp rueckgabedatum;
+    private Timestamp reservierungsdatum;
     private String marke;
     private String modell;
     private String kurz_beschreibung;
@@ -18,10 +15,13 @@ public class ReservierungDTO {
     private boolean automatik;
     private int anzahl_sitzplaetze;
     private int anzahl_tueren;
-    private double preis_pro_tag;
+    private double preis;
     private boolean klimaanlage;
     private String auto_type;
-    private String autokennzeichen;
+    private String zustand;
+    private int kilometer;
+    private String kraftstoffart;
+    private String aussenfarbe;
 
 
 
@@ -32,12 +32,11 @@ public class ReservierungDTO {
 
     public ReservierungDTO(int kundennummer, int auto_id,  String marke,
                            String modell, String kurz_beschreibung, String lang_beschreibung, int baujahr, boolean automatik,
-                           int anzahl_sitzplaetze, int anzahl_tueren, double preis_pro_tag, boolean klimaanlage, String auto_type, String autokennzeichen,
-                           Timestamp abholdatum, Timestamp rueckgabedatum) {
+                           int anzahl_sitzplaetze, int anzahl_tueren, double preis, boolean klimaanlage,
+                           String auto_type, String zustand, int kilometer, String kraftstoffart, String aussenfarbe,Timestamp reservierungsdatum) {
         this.kundennummer = kundennummer;
         this.auto_id = auto_id;
-        this.abholdatum = abholdatum;
-        this.rueckgabedatum = rueckgabedatum;
+        this.reservierungsdatum = reservierungsdatum;
         this.marke = marke;
         this.modell = modell;
         this.kurz_beschreibung = kurz_beschreibung;
@@ -46,11 +45,55 @@ public class ReservierungDTO {
         this.automatik = automatik;
         this.anzahl_sitzplaetze = anzahl_sitzplaetze;
         this.anzahl_tueren = anzahl_tueren;
-        this.preis_pro_tag = preis_pro_tag;
+        this.preis = preis;
         this.klimaanlage = klimaanlage;
         this.auto_type = auto_type;
-        this.autokennzeichen = autokennzeichen;
+        this.zustand = zustand;
+        this.kilometer = kilometer;
+        this.kraftstoffart = kraftstoffart;
+        this.aussenfarbe = aussenfarbe;
     }
+
+    public double getPreis() {
+        return preis;
+    }
+
+    public void setPreis(double preis) {
+        this.preis = preis;
+    }
+
+    public String getZustand() {
+        return zustand;
+    }
+
+    public void setZustand(String zustand) {
+        this.zustand = zustand;
+    }
+
+    public int getKilometer() {
+        return kilometer;
+    }
+
+    public void setKilometer(int kilometer) {
+        this.kilometer = kilometer;
+    }
+
+    public String getKraftstoffart() {
+        return kraftstoffart;
+    }
+
+    public void setKraftstoffart(String kraftstoffart) {
+        this.kraftstoffart = kraftstoffart;
+    }
+
+    public String getAussenfarbe() {
+        return aussenfarbe;
+    }
+
+    public void setAussenfarbe(String aussenfarbe) {
+        this.aussenfarbe = aussenfarbe;
+    }
+
 
     public String getMarke() {
         return marke;
@@ -116,14 +159,6 @@ public class ReservierungDTO {
         this.anzahl_tueren = anzahl_tueren;
     }
 
-    public double getPreis_pro_tag() {
-        return preis_pro_tag;
-    }
-
-    public void setPreis_pro_tag(double preis_pro_tag) {
-        this.preis_pro_tag = preis_pro_tag;
-    }
-
     public boolean isKlimaanlage() {
         return klimaanlage;
     }
@@ -138,14 +173,6 @@ public class ReservierungDTO {
 
     public void setAuto_type(String auto_type) {
         this.auto_type = auto_type;
-    }
-
-    public String getAutokennzeichen() {
-        return autokennzeichen;
-    }
-
-    public void setAutokennzeichen(String autokennzeichen) {
-        this.autokennzeichen = autokennzeichen;
     }
 
     public int getKundennummer() {
@@ -164,19 +191,11 @@ public class ReservierungDTO {
         this.auto_id = auto_id;
     }
 
-    public Timestamp getAbholdatum() {
-        return abholdatum;
+    public Timestamp getReservierungsdatum() {
+        return reservierungsdatum;
     }
 
-    public void setAbholdatum(Timestamp abholdatum) {
-        this.abholdatum = abholdatum;
-    }
-
-    public Timestamp getRueckgabedatum() {
-        return rueckgabedatum;
-    }
-
-    public void setRueckgabedatum(Timestamp rueckgabedatum) {
-        this.rueckgabedatum = rueckgabedatum;
+    public void setReservierungsdatum(Timestamp reservierungsdatum) {
+        this.reservierungsdatum = reservierungsdatum;
     }
 }

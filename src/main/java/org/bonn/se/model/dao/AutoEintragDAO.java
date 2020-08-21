@@ -26,8 +26,8 @@ public class AutoEintragDAO  extends AbstractDAO{
 
     public void autoEintragen(AutoEintragDTO autoEintragDTO) throws DatabaseException {
         String sql = "INSERT INTO idrive.tab_auto (marke,modell,kurz_beschreibung,lang_beschreibung,baujahr,automatik,anzahl_sitzplaetze," +
-                     "                             anzahl_tueren,preis_pro_tag,klimaanlage,auto_typ,autokennzeichen,personalnummer)"+
-                     "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                     "                             anzahl_tueren,preis,klimaanlage,auto_typ,zustand,kilometer,kraftstoffart,aussenfarbe,personalnummer)"+
+                     "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement statement = getPreparedStatement(sql);
         try {
@@ -40,12 +40,15 @@ public class AutoEintragDAO  extends AbstractDAO{
             statement.setBoolean(6, autoEintragDTO.isAutomatik());
             statement.setInt(7, autoEintragDTO.getAnzahl_sitzplaetze());
             statement.setInt(8, autoEintragDTO.getAnzahl_tueren());
-            statement.setDouble(9, autoEintragDTO.getPreis_pro_tag());
+            statement.setDouble(9, autoEintragDTO.getPreis());
             statement.setBoolean(10, autoEintragDTO.isKlimaanlage());
             statement.setString(11, autoEintragDTO.getAuto_type());
-            statement.setString(12, autoEintragDTO.getAutokennzeichen());
+            statement.setString(12, autoEintragDTO.getZustand());
+            statement.setInt(13, autoEintragDTO.getKilometer());
+            statement.setString(14, autoEintragDTO.getKraftstoffart());
+            statement.setString(15, autoEintragDTO.getAussenfarbe());
             Vertriebler vertriebler = (Vertriebler) UI.getCurrent().getSession().getAttribute(Roles.VERTRIEBLER);
-            statement.setInt(13, vertriebler.getPersonalnummer());
+            statement.setInt(16, vertriebler.getPersonalnummer());
 
             statement.executeUpdate();
             ConfirmationWindow confWindow =  new ConfirmationWindow("Auto wurde eingetragen!");
