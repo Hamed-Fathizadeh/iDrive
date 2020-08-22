@@ -155,6 +155,10 @@ public class KundeHomeView  extends VerticalLayout implements View {
 
         //Ergebnis Tabelle
         Grid<AutoEintragDTO> grid1 = new Grid<>();
+        DataProvider<AutoEintragDTO, Void> dataProviderInit = suche.einfacheSuche(null, null, "0",
+                "Erweitert", null, null, null, null,
+                null, null, 999999999 , 0,null);
+        grid1.setDataProvider(dataProviderInit);
 
         //Erweiterte Suche An/Aus
         erwSuche.addValueChangeListener((HasValue.ValueChangeListener<Boolean>) event -> {
