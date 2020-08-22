@@ -143,7 +143,7 @@ public class RegisterView extends VerticalLayout implements View {
                                 if(!emailDomain.equals("@idrive.de")){
                                     org.bonn.se.gui.window.ConfirmationWindow confWindow =  new org.bonn.se.gui.window.ConfirmationWindow("Als Vertriebler mussen Sie sich mit der Email domain: @idrive.de registrieren!");
                                     confWindow.setCaption("Email passt nicht!");
-                                    confWindow.setWidth("300px");
+                                    confWindow.setWidth("600px");
                                     UI.getCurrent().addWindow(confWindow);
                                     confWindow.focus();
                                 return;
