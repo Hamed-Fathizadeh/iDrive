@@ -56,11 +56,14 @@ public class AutoEintragenWindow extends CustomWindow {
         ComboBox<String> comboModell = new ComboBox<>("Modell");
         comboModell.setWidth(300.0f, Unit.PIXELS);
         comboModell.setPlaceholder("X3");
+        comboModell.setReadOnly(true);
 
 
         comboMarke.addValueChangeListener((HasValue.ValueChangeListener<String>) event -> {
         AutoModellService ServiceModell = new AutoModellService(comboMarke.getValue());
         comboModell.setDataProvider(ServiceModell::fetch, ServiceModell::count);
+        comboModell.setReadOnly(false);
+        comboModell.clear();
         });
         ComboBox<Integer> comboBaujahr = new ComboBox<>("Baujahr");
         comboBaujahr.setWidth(300.0f, Unit.PIXELS);
