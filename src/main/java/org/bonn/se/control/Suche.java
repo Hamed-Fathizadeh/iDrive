@@ -10,6 +10,6 @@ public interface Suche {
     int getRowsCount();
 
     DataProvider<AutoEintragDTO,Void> einfacheSuche(String comboMarke, String comboModell, String comboBaujahr,
-                                                    String suchArt, String comboKlimaanlage,String comboAnzahlSitze ,String comboAnzahlTuere, String comboZustand, String comboKraftstoffart, String combofarbe, int preis, int kilometer);
+                                                    String suchArt, String comboKlimaanlage,String comboAnzahlSitze ,String comboAnzahlTuere, String comboZustand, String comboKraftstoffart, String combofarbe, int preis, int kilometer, String comboAutomatik);
 
 }

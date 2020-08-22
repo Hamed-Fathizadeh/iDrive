@@ -62,7 +62,7 @@ public class ContainerEingetrageneAutosDAO {
 
     public List<AutoEintragDTO> loadSuche(String comboMarke, String comboModell, String comboBaujahr,
                                           String suchArt, String comboKlimaanlage, String comboAnzahlSitze, String comboAnzahlTuere,
-                                          String comboZustand, String comboKraftstoffart, String comboFarbe, int preis, int kilometer) throws DatabaseException, SQLException {
+                                          String comboZustand, String comboKraftstoffart, String comboFarbe, int preis, int kilometer,String comboAutomatik) throws DatabaseException, SQLException {
         List<AutoEintragDTO> liste = new ArrayList<>();
         ResultSet set = null;
         Statement statement = JDBCConnection.getInstance().getStatement();
@@ -81,26 +81,28 @@ public class ContainerEingetrageneAutosDAO {
             StringBuilder sFarbe = new StringBuilder(" ");
             StringBuilder sPreis = new StringBuilder(" ");
             StringBuilder sKilometer = new StringBuilder(" ");
+            StringBuilder sAutomatik = new StringBuilder(" ");
 
 
             if(suchArt.equals("Erweitert")){
-                 sbKlimaanlage = new StringBuilder(comboModell == null ? " " : comboKlimaanlage.equals("Ja")? " and klimaanlage  = true ": " and klimaanlage  = false "  );
-                 sbAnzahlTueren = new StringBuilder(comboAnzahlTuere == null ? " " : " and anzahl_tueren = " + Integer.parseInt(comboAnzahlTuere) + " ");
-                 sbAnzahlSitze = new StringBuilder(comboAnzahlSitze == null ? " " : " and anzahl_sitzplaetze = " + Integer.parseInt(comboAnzahlSitze) + " ");
+                 sbKlimaanlage = new StringBuilder(comboKlimaanlage == null ? " " : comboKlimaanlage.equals("Ja")? " and klimaanlage  = true ": " and klimaanlage  = false "  );
+                 sbAnzahlTueren = new StringBuilder(comboAnzahlTuere == null ? " " : " and anzahl_tueren >= " + Integer.parseInt(comboAnzahlTuere) + " ");
+                 sbAnzahlSitze = new StringBuilder(comboAnzahlSitze == null ? " " : " and anzahl_sitzplaetze >= " + Integer.parseInt(comboAnzahlSitze) + " ");
 
-                 sZustand = new StringBuilder(sZustand == null ? " " : " and zustand = " + comboZustand + " ");
-                 sKraftstoffart = new StringBuilder(sKraftstoffart == null ? " " : " and kraftstoffart = " + comboKraftstoffart + " ");
-                 sFarbe = new StringBuilder(sFarbe == null ? " " : " and aussenfarbe = " + comboFarbe + " ");
-                 sPreis = new StringBuilder(sPreis == null ? " " : " and preis >= " + preis + " ");
-                 sKilometer = new StringBuilder(sKilometer == null ? " " : " and kilometer >= " + kilometer + " ");
+                 sZustand = new StringBuilder(comboZustand == null ? " " : " and zustand = '" + comboZustand + "' ");
+                 sKraftstoffart = new StringBuilder(comboKraftstoffart == null ? " " : " and kraftstoffart = '" + comboKraftstoffart + "' ");
+                 sFarbe = new StringBuilder(comboFarbe == null ? " " : " and aussenfarbe = '" + comboFarbe + "' ");
+                 sPreis = new StringBuilder(preis == 0 ? " " : " and preis <= " + preis + " ");
+                 sKilometer = new StringBuilder(kilometer == 0 ? " " : " and kilometer <= " + kilometer + " ");
+                 sAutomatik = new StringBuilder(comboAutomatik == null ? " " : comboAutomatik.equals("Ja")? " and automatik  = true ": " and automatik  = false "  );
             }
 
 
             System.out.println("select * from idrive.tab_auto"+
-                    " where 1 = 1 "+ sbMarke  + sModell + sbBaujahr + sbKlimaanlage +sbAnzahlTueren+sbAnzahlSitze+sZustand+sKraftstoffart+sFarbe+sPreis+sKilometer);
+                    " where 1 = 1 "+ sbMarke  + sModell + sbBaujahr + sbKlimaanlage +sbAnzahlTueren+sbAnzahlSitze+sZustand+sKraftstoffart+sFarbe+sPreis+sKilometer+sAutomatik);
 
             set = statement.executeQuery("select * from idrive.tab_auto"+
-                                             " where 1 = 1 "+ sbMarke  + sModell + sbBaujahr + sbKlimaanlage +sbAnzahlTueren+sbAnzahlSitze +sZustand+sKraftstoffart+sFarbe+sPreis+sKilometer);
+                                             " where 1 = 1 "+ sbMarke  + sModell + sbBaujahr + sbKlimaanlage +sbAnzahlTueren+sbAnzahlSitze +sZustand+sKraftstoffart+sFarbe+sPreis+sKilometer+sAutomatik);
 
 
             while (set.next()) {
@@ -109,7 +111,7 @@ public class ContainerEingetrageneAutosDAO {
                         , set.getBoolean("automatik"), set.getInt("anzahl_sitzplaetze"), set.getInt("anzahl_tueren")
                         , set.getInt("preis"), set.getBoolean("klimaanlage"), set.getString("auto_typ")
                         , set.getString("zustand"), set.getInt("kilometer"),set.getString("kraftstoffart"),
-                        set.getString("aussenfarbe"),set.getInt("personalnummer")
+                          set.getString("aussenfarbe"),set.getInt("personalnummer")
                 );
 
                 liste.add(res);

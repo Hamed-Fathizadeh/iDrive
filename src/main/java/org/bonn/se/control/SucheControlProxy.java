@@ -19,12 +19,12 @@ public class SucheControlProxy implements Suche {
     @Override
     public DataProvider<AutoEintragDTO, Void> einfacheSuche(String comboMarke, String comboModell, String comboBaujahr, String suchArt,
                                                             String comboKlimaanlage, String comboAnzahlSitze, String comboAnzahlTuere,
-                                                            String comboZustand, String comboKraftstoffart, String combofarbe, int preis, int kilometer) {
+                                                            String comboZustand, String comboKraftstoffart, String combofarbe, int preis, int kilometer,String comboAutomatik) {
         if(implSucheControl == null) {
             implSucheControl = new SucheControl();
         }
         return implSucheControl.einfacheSuche(comboMarke, comboModell, comboBaujahr, suchArt, comboKlimaanlage, comboAnzahlSitze,
-                                              comboAnzahlTuere, comboZustand, comboKraftstoffart,combofarbe,preis,kilometer);
+                                              comboAnzahlTuere, comboZustand, comboKraftstoffart,combofarbe,preis,kilometer,comboAutomatik);
     }
 }
 
