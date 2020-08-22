@@ -137,19 +137,31 @@ public class RegisterView extends VerticalLayout implements View {
                             email.setComponentError(new UserError("Bitte eine andere E-Mail verwenden."));
 
                         } else {
-                            UserDAO.getInstance().registerUser(user);
+
                             if(user.getType().equals("Vertriebler")) {
-                                Vertriebler vertriebler = new Vertriebler();
-                                vertriebler.setEmail(user.getEmail());
-                                vertriebler.setVorname(user.getVorname());
-                                vertriebler.setNachname(user.getNachname());
-                                vertriebler.setPasswort(user.getPasswort());
-                                vertriebler.setType(user.getType());
-                                vertriebler.setPersonalnummer(UserControl.getInstance().getPersonalnummer(email.getValue()));
-                                UI.getCurrent().getSession().setAttribute(Roles.VERTRIEBLER, vertriebler);
-                                UI.getCurrent().getNavigator().navigateTo(Views.VERTIEBLERHOMEVIEW);
+                                String emailDomain =user.getEmail().substring( user.getEmail().indexOf('@'),user.getEmail().length());
+                                if(!emailDomain.equals("@idrive.de")){
+                                    org.bonn.se.gui.window.ConfirmationWindow confWindow =  new org.bonn.se.gui.window.ConfirmationWindow("Als Vertriebler mussen Sie sich mit der Email domain: @idrive.de registrieren!");
+                                    confWindow.setCaption("Email passt nicht!");
+                                    confWindow.setWidth("300px");
+                                    UI.getCurrent().addWindow(confWindow);
+                                    confWindow.focus();
+                                return;
+                                }else {
+                                    UserDAO.getInstance().registerUser(user);
+                                    Vertriebler vertriebler = new Vertriebler();
+                                    vertriebler.setEmail(user.getEmail());
+                                    vertriebler.setVorname(user.getVorname());
+                                    vertriebler.setNachname(user.getNachname());
+                                    vertriebler.setPasswort(user.getPasswort());
+                                    vertriebler.setType(user.getType());
+                                    vertriebler.setPersonalnummer(UserControl.getInstance().getPersonalnummer(email.getValue()));
+                                    UI.getCurrent().getSession().setAttribute(Roles.VERTRIEBLER, vertriebler);
+                                    UI.getCurrent().getNavigator().navigateTo(Views.VERTIEBLERHOMEVIEW);
+                                }
 
                             }else{
+                                UserDAO.getInstance().registerUser(user);
                                 Kunde kunde = new Kunde();
                                 kunde.setEmail(user.getEmail());
                                 kunde.setVorname(user.getVorname());
