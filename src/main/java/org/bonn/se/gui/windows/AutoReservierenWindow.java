@@ -7,6 +7,8 @@ import org.bonn.se.control.ReservierungControl;
 import org.bonn.se.gui.component.CustomWindow;
 import org.bonn.se.model.objects.dto.AutoEintragDTO;
 import org.bonn.se.model.objects.dto.ReservierungDTO;
+import org.bonn.se.model.objects.entitites.Kunde;
+import org.bonn.se.services.util.Roles;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -170,10 +172,12 @@ public class AutoReservierenWindow extends CustomWindow {
                 ReservierungDTO reservierungDTO = new ReservierungDTO();
                 reservierungDTO.setAuto_id(autoEintragDTO.getAuto_id());
                 reservierungDTO.setReservierungsdatum( Timestamp.valueOf(datePickerAbhol.getValue()));
-                Timestamp[] resDatum = ReservierungControl.getInstance().istReserviert(reservierungDTO);
-                if( resDatum[0] != null){
-                    org.bonn.se.gui.window.ConfirmationWindow confWindow = new org.bonn.se.gui.window.ConfirmationWindow("Das Auto ist von: "+resDatum[0]+" bis: "+resDatum[1]+" reserviert! \n " +
-                            "Bitte wehlen Sie eine andere Datum!");
+                Kunde kunde = (Kunde) UI.getCurrent().getSession().getAttribute(Roles.KUNDE);
+                reservierungDTO.setKundennummer(kunde.getKundennummer());
+
+                if( ReservierungControl.getInstance().istReserviert(reservierungDTO)){
+                    System.out.println("autResWin hier2");
+                    org.bonn.se.gui.window.ConfirmationWindow confWindow = new org.bonn.se.gui.window.ConfirmationWindow("Sie haben schon das Auto an diesem Ziet reserviert! ");
                     confWindow.setCaption("Andere Datum auswählen!");
                     UI.getCurrent().addWindow(confWindow);
                 }else {

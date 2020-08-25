@@ -30,8 +30,8 @@ public class ReservierungDAO extends AbstractDAO{
         PreparedStatement statement = getPreparedStatement(sql);
         try {
 
-            Kunde kunde = (Kunde) UI.getCurrent().getSession().getAttribute(Roles.KUNDE);
-            statement.setInt(1, kunde.getKundennummer());
+
+            statement.setInt(1, reservierungDTO.getKundennummer());
             statement.setInt(2, reservierungDTO.getAuto_id());
             statement.setTimestamp(3, reservierungDTO.getReservierungsdatum());
 
@@ -52,24 +52,26 @@ public class ReservierungDAO extends AbstractDAO{
 
     }
 
-    public Timestamp[] istReserviert(ReservierungDTO reservierungDTO) throws DatabaseException {
+    public boolean istReserviert(ReservierungDTO reservierungDTO) throws DatabaseException {
         ResultSet set = null;
-        boolean res = false;
-        Timestamp[] datumReserviert = new Timestamp[2];
+
         try {
+
+            System.out.println("select * \n" +
+                    "  from idrive.tab_reservierung\n" +
+                    " where  date_trunc('day', TIMESTAMP '"+reservierungDTO.getReservierungsdatum()+"')  =  date_trunc('day',reservierungsdatum)\n" +
+                    "   and "+reservierungDTO.getKundennummer()+"   = kundennummer\n"+
+                    "   and auto_id = "+reservierungDTO.getAuto_id());
+
             Statement statement = JDBCConnection.getInstance().getStatement();
             set = statement.executeQuery("select * \n" +
                     "  from idrive.tab_reservierung\n" +
-                    " where '"+reservierungDTO.getReservierungsdatum()+"'  = reservierungsdatum\n" +
+                    " where  date_trunc('day', TIMESTAMP '"+reservierungDTO.getReservierungsdatum()+"')  =  date_trunc('day',reservierungsdatum)\n" +
                     "   and "+reservierungDTO.getKundennummer()+"   = kundennummer\n"+
-                    "   and auto_id = "+reservierungDTO.getAuto_id()
-
-
-            );
+                    "   and auto_id = "+reservierungDTO.getAuto_id());
 
             if (set.next()) {
-                datumReserviert[0] =  set.getTimestamp("abholdatum");
-                datumReserviert[1] =  set.getTimestamp("rueckgabedatum");
+                return true;
             }
 
           } catch (SQLException throwables) {
@@ -78,7 +80,7 @@ public class ReservierungDAO extends AbstractDAO{
             assert set != null;
             JDBCConnection.getInstance().closeConnection();
         }
-        return datumReserviert;
+        return false;
 
     }
 

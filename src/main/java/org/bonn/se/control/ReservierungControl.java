@@ -30,14 +30,14 @@ public class ReservierungControl {
         }
     }
 
-    public Timestamp[] istReserviert (ReservierungDTO reservierungDTO) {
+    public boolean istReserviert (ReservierungDTO reservierungDTO) {
 
         try {
            return ReservierungDAO.getInstance().istReserviert(reservierungDTO);
         } catch (DatabaseException e) {
             e.printStackTrace();
         }
-        return null;
+        return false;
     }
 
     public void stornieren (ReservierungDTO reservierungDTO) {
