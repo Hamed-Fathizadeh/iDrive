@@ -22,20 +22,17 @@ public class SeleniumTestLogin {
 
     @Test
     public void TestLogin() throws InterruptedException, DatabaseException {
-        driver.get("http://localhost:8080/#!LoginView");
+        driver.get("http://localhost:8080");
         driver.manage().window().maximize();
 
         driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/div/div/div[2]/div")).click();
         driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/div/div[2]/div/div[2]/div/div[3]/input")).sendKeys("Kornelia.Leiter@idrive.de");
         driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/div/div[2]/div/div[2]/div/div[5]/input")).sendKeys("12345678");
         driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/div/div/div[2]/div/div[2]/div/div[9]/div")).click();
-        waitMethode();
+        synchronized (driver) { driver.wait(2000); }
         driver.close();
     }
 
-   public synchronized void waitMethode() throws InterruptedException {
-       driver.wait(2000);
-   }
 
 
 
