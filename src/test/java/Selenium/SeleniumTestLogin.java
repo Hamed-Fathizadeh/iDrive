@@ -21,7 +21,7 @@ public class SeleniumTestLogin {
     }
 
     @Test
-    public void TestLogin() throws InterruptedException, DatabaseException {
+    public void TestLogin() throws InterruptedException {
         driver.get("http://localhost:8080");
         driver.manage().window().maximize();
 
@@ -32,9 +32,6 @@ public class SeleniumTestLogin {
         synchronized (driver) { driver.wait(2000); }
         driver.close();
     }
-
-
-
 
 }
 
