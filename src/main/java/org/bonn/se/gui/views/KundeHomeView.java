@@ -6,32 +6,27 @@ import com.vaadin.event.selection.SingleSelectionListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
 import org.bonn.se.control.Suche;
 import org.bonn.se.control.SucheControlProxy;
 import org.bonn.se.gui.component.AutoTabelle;
 import org.bonn.se.gui.component.RegistrationTextField;
 import org.bonn.se.gui.component.TopPanelUser;
-import org.bonn.se.gui.windows.AutoEintragenWindow;
 import org.bonn.se.gui.windows.AutoReservierenWindow;
 import org.bonn.se.model.objects.dto.AutoEintragDTO;
 import org.bonn.se.model.objects.entitites.ContainerEingetrageneAutos;
-import org.bonn.se.model.objects.entitites.Vertriebler;
 import org.bonn.se.services.db.JDBCConnection;
 import org.bonn.se.services.db.exception.DatabaseException;
 import org.bonn.se.services.util.AutoMarkeService;
 import org.bonn.se.services.util.AutoModellService;
 import org.bonn.se.services.util.Roles;
 import org.bonn.se.services.util.Views;
-
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 
 public class KundeHomeView  extends VerticalLayout implements View {
