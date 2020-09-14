@@ -7,6 +7,7 @@ import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.FileResource;
 import com.vaadin.server.UserError;
 import com.vaadin.server.VaadinService;
 import com.vaadin.shared.ui.ContentMode;
@@ -21,6 +22,8 @@ import org.bonn.se.model.objects.entitites.Vertriebler;
 import org.bonn.se.services.db.exception.DatabaseException;
 import org.bonn.se.services.util.Roles;
 import org.bonn.se.services.util.Views;
+
+import java.io.File;
 
 
 public class RegisterView extends VerticalLayout implements View {
@@ -51,6 +54,11 @@ public class RegisterView extends VerticalLayout implements View {
 
         Label head = new Label(ls1, ContentMode.HTML);
 
+        String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+        FileResource resource = new FileResource(new File(basepath +
+                "/VAADIN/themes/demo/img/RegisterBild.png"));
+        Image registerBild = new Image("", resource);
+
 //Textfeld vorname
         RegistrationTextField vorname = new RegistrationTextField("Vorname");
         vorname.selectAll();
@@ -68,7 +76,7 @@ public class RegisterView extends VerticalLayout implements View {
         RegistrationPasswordField password = new RegistrationPasswordField ("Passwort");
 
 
-        GridLayout mainGrid = new GridLayout(1, 5);
+        GridLayout mainGrid = new GridLayout(2, 5);
         mainGrid.setHeightFull();
         mainGrid.setWidthFull();
         mainGrid.setMargin(true);
@@ -205,14 +213,15 @@ public class RegisterView extends VerticalLayout implements View {
 
         });
 
-        mainGrid.addComponent(loginButton,0,1,0,1);
+        mainGrid.addComponent(loginButton,1,1,1,1);
         mainGrid.addComponent(head,0,2,0,2);
         mainGrid.addComponent(panel,0,3,0,3);
+        mainGrid.addComponent(registerBild,1,3,1,3);
 
         mainGrid.setComponentAlignment(loginButton,Alignment.TOP_RIGHT);
         mainGrid.setComponentAlignment(head,Alignment.TOP_LEFT);
-        mainGrid.setComponentAlignment(panel,Alignment.TOP_CENTER);
-
+        mainGrid.setComponentAlignment(panel,Alignment.TOP_LEFT);
+        mainGrid.setComponentAlignment(registerBild,Alignment.TOP_RIGHT);
         this.addComponent(mainGrid);
         this.setComponentAlignment(mainGrid,Alignment.TOP_CENTER);
 
