@@ -26,33 +26,15 @@ import org.bonn.se.services.util.Views;
 import java.io.File;
 
 
-public class RegisterView extends VerticalLayout implements View {
+public class RegisterView extends Panel implements View {
 
     public void setUp(){
 
-        this.setMargin(true);
         this.setSizeFull();
 
         Button loginButton = new Button("Login",VaadinIcons.BULLSEYE);
 
-        //regStudent.addClickListener((Button.ClickListener) event -> UI.getCurrent().getNavigator().navigateTo(Views.REGISTERSTUDENT));
 
-       // regUnternehmen.addClickListener((Button.ClickListener) event -> UI.getCurrent().getNavigator().navigateTo(REGISTERUNTERNEHMEN));
-
-        Label lPatzhalter = new Label("&nbsp", ContentMode.HTML);
-//schrifft
-        String ls1 = "<div class=WordSection1>\n" +
-                "\n" +
-                "<p class=MsoNormal><b><span style='font-size:22.0pt;line-height:107%;\n" +
-                "font-family:\"\"YACgEa4Wckw 0\", _fb_, auto\";color:#003853'>Willkommen bei <span\n" +
-                "class=SpellE>iDrive &#128663</span><o:p></o:p></span></b></p>\n" +
-                "\n" +
-                "<p class=MsoNormal><b><span style='font-size:22.0pt;line-height:107%;\n" +
-                "font-family:\"\"YACgEa4Wckw 0\", _fb_, auto\";color:#003853'>Registrieren Sie sich jetzt!<o:p></o:p></span></b></p>\n" +
-                "\n" +
-                "</div>";
-
-        Label head = new Label(ls1, ContentMode.HTML);
 
         String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
         FileResource resource = new FileResource(new File(basepath +
@@ -89,6 +71,11 @@ public class RegisterView extends VerticalLayout implements View {
 
 //Vertikales Layout + Hinzufügen der Textfelder
         VerticalLayout layout = new VerticalLayout();
+
+        String basepath2 = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+        FileResource resource2 = new FileResource(new File(basepath2 +
+                "/VAADIN/themes/demo/img/Logo_iDrive.png"));
+        Image logo = new Image("", resource2);
 
 
 
@@ -129,10 +116,9 @@ public class RegisterView extends VerticalLayout implements View {
 
 
 
-//Button zum Login + Symbol auf Button
+//Buttons
 
         Button registerButton = new Button("Registrieren");
-        //registerButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         registerButton.addClickListener(
                 event -> {
@@ -194,12 +180,6 @@ public class RegisterView extends VerticalLayout implements View {
         layout.addComponent(registerButton);
         layout.setComponentAlignment(registerButton, Alignment.MIDDLE_CENTER);
 
-        //layout.addComponent(link4);
-        //layout.setComponentAlignment(link4, Alignment.MIDDLE_CENTER);
-
-        //Button für Passwort vergessen.
-
-        //Erstellen und Hinzufügen eines Panels + Platzierung in die Mitte
         Panel panel = new Panel( "");
         panel.setWidth("40px");
 
@@ -214,16 +194,17 @@ public class RegisterView extends VerticalLayout implements View {
         });
 
         mainGrid.addComponent(loginButton,1,1,1,1);
-        mainGrid.addComponent(head,0,2,0,2);
+        mainGrid.addComponent(logo,0,1,0,1);
         mainGrid.addComponent(panel,0,3,0,3);
         mainGrid.addComponent(registerBild,1,3,1,3);
 
         mainGrid.setComponentAlignment(loginButton,Alignment.TOP_RIGHT);
-        mainGrid.setComponentAlignment(head,Alignment.TOP_LEFT);
+        mainGrid.setComponentAlignment(logo,Alignment.TOP_LEFT);
         mainGrid.setComponentAlignment(panel,Alignment.TOP_LEFT);
         mainGrid.setComponentAlignment(registerBild,Alignment.TOP_RIGHT);
-        this.addComponent(mainGrid);
-        this.setComponentAlignment(mainGrid,Alignment.TOP_CENTER);
+
+        this.setContent(mainGrid);
+        this.setSizeFull();
 
 
 
