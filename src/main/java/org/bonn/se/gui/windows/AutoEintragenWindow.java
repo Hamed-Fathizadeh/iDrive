@@ -51,12 +51,12 @@ public class AutoEintragenWindow extends CustomWindow {
         comboMarke.setWidth(300.0f, Unit.PIXELS);
         AutoMarkeService ServiceMarke = new AutoMarkeService();
         comboMarke.setDataProvider(ServiceMarke::fetch, ServiceMarke::count);
-        comboMarke.setPlaceholder("BMW");
+
 
         ComboBox<String> comboModell = new ComboBox<>("Modell");
         comboModell.setWidth(300.0f, Unit.PIXELS);
-        comboModell.setPlaceholder("X3");
         comboModell.setReadOnly(true);
+
 
 
         comboMarke.addValueChangeListener((HasValue.ValueChangeListener<String>) event -> {
@@ -71,7 +71,6 @@ public class AutoEintragenWindow extends CustomWindow {
         DateField date = new DateField();
         date.setValue(LocalDate.now());
         date.setDateFormat("yyyy-MM-dd");
-        System.out.println(date.getValue().getYear());
         List<Integer> lBaujahr = new ArrayList<Integer>();
         for(int i = date.getValue().getYear(); i >= 1970;i-- ){
             lBaujahr.add(i);
@@ -82,40 +81,44 @@ public class AutoEintragenWindow extends CustomWindow {
         ComboBox<Boolean> comboAutomatik = new ComboBox<>("Automatik");
         comboAutomatik.setWidth(300.0f, Unit.PIXELS);
         comboAutomatik.setItems(true,false);
+        comboAutomatik.setItemCaptionGenerator(bool -> bool?"Ja":"Nein");
 
         ComboBox<Boolean> comboKlimaanlage = new ComboBox<>("Klimaanlage");
         comboKlimaanlage.setWidth(300.0f, Unit.PIXELS);
         comboKlimaanlage.setItems(true,false);
+        comboKlimaanlage.setItemCaptionGenerator(bool -> bool?"Ja":"Nein");
 
         ComboBox<Integer> comboAnzahlSitze = new ComboBox<>("Anzahl Sitze");
         comboAnzahlSitze.setWidth(300.0f, Unit.PIXELS);
         comboAnzahlSitze.setItems(1,2,3,4,5,6,7,8,9);
 
+
         ComboBox<Integer> comboAnzahlTuere = new ComboBox<>("Anzahl Türe");
         comboAnzahlTuere.setWidth(300.0f, Unit.PIXELS);
         comboAnzahlTuere.setItems(1,2,3,4,5);
 
+
         ComboBox<String> comboAutoType = new ComboBox<>("Auto Type");
         comboAutoType.setWidth(300.0f, Unit.PIXELS);
         comboAutoType.setItems("Cabrio","Limousine","SUV","Coupe","Kombi","Van","Transporter");
-        comboAutoType.setPlaceholder("SUV");
+
 
         ComboBox<String> comboZustand = new ComboBox<>("Zustand");
         comboZustand.setWidth(300.0f, Unit.PIXELS);
         comboZustand.setItems("Neu","Gebraucht","Tageszulassung","Jahreswagen","Oldtimer","Vorführfahrzeug","Fahrtauglich");
-        comboZustand.setPlaceholder("Neu");
+
 
         ComboBox<String> comboKraftstoffart = new ComboBox<>("Kraftstoffart");
         comboKraftstoffart.setWidth(300.0f, Unit.PIXELS);
         comboKraftstoffart.setItems("Benzin","Diesel","Elektro","Hybrid (Benzin/Elektro)","Hybrid (Diesel / Elektro)","Autogas (LPG)",
                                "Ethanol (FFV, E85 etc.)", "Wasserstoff");
-        comboKraftstoffart.setPlaceholder("Benzin");
+
 
         ComboBox<String> comboFarbe = new ComboBox<>("Außenfarbe");
         comboFarbe.setWidth(300.0f, Unit.PIXELS);
-        comboFarbe.setItems("Beige","Schwarz","Blau","Braun","Gold","Grün","Grau", "Orange", "Violett", "Rot",
-                               "Silber", "Weiß", "Gelb", "Metallic");
-        comboFarbe.setPlaceholder("Neu");
+        comboFarbe.setItems("Weiß" ,"Schwarz","Blau","Braun","Gold","Grün","Grau", "Orange", "Violett", "Rot",
+                               "Silber", "Beige", "Gelb", "Metallic");
+
 
         ComboBox<Integer> preis = new ComboBox("Preis");
         preis.setWidth(300.0f, Unit.PIXELS);
@@ -197,6 +200,17 @@ public class AutoEintragenWindow extends CustomWindow {
         binder.setBean(auto);
 
 
+        comboMarke.setValue("Acura");
+        comboModell.setValue("CL");
+        comboBaujahr.setValue(2020);
+        comboAnzahlSitze.setValue(1);
+        comboAnzahlTuere.setValue(1);
+        comboAutoType.setValue("Cabrio");
+        comboZustand.setValue("Neu");
+        comboKraftstoffart.setValue("Benzin");
+        comboFarbe.setValue("Weiß");
+        preis.setValue(500);
+        kilometer.setValue(0);
 
         gridLayout.addComponent(head,0,0,2,0);
 
