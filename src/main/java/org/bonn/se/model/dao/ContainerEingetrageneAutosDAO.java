@@ -66,7 +66,6 @@ public class ContainerEingetrageneAutosDAO {
         List<AutoEintragDTO> liste = new ArrayList<>();
         ResultSet set = null;
         Statement statement = JDBCConnection.getInstance().getStatement();
-        System.out.println("comboModell: "+comboModell);
         try {
 
 
@@ -96,10 +95,6 @@ public class ContainerEingetrageneAutosDAO {
                  sKilometer = new StringBuilder(kilometer == 0 ? " " : " and kilometer <= " + kilometer + " ");
                  sAutomatik = new StringBuilder(comboAutomatik == null ? " " : comboAutomatik.equals("Ja")? " and automatik  = true ": " and automatik  = false "  );
             }
-
-
-            System.out.println("select * from idrive.tab_auto"+
-                    " where 1 = 1 "+ sbMarke  + sModell + sbBaujahr + sbKlimaanlage +sbAnzahlTueren+sbAnzahlSitze+sZustand+sKraftstoffart+sFarbe+sPreis+sKilometer+sAutomatik);
 
             set = statement.executeQuery("select * from idrive.tab_auto"+
                                              " where 1 = 1 "+ sbMarke  + sModell + sbBaujahr + sbKlimaanlage +sbAnzahlTueren+sbAnzahlSitze +sZustand+sKraftstoffart+sFarbe+sPreis+sKilometer+sAutomatik);

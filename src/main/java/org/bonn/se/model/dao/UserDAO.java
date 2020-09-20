@@ -142,9 +142,7 @@ public class UserDAO  extends AbstractDAO {
         Statement statement = JDBCConnection.getInstance().getStatement();
 
         try {
-            System.out.println("SELECT kundennummer "
-                    + "FROM idrive.tab_kunde "
-                    + "WHERE upper(idrive.tab_kunde.email) = '" + email.toUpperCase() + "'");
+
 
             set = statement.executeQuery("SELECT kundennummer "
                     + "FROM idrive.tab_kunde "

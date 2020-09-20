@@ -35,7 +35,6 @@ public class ReservierungDAO extends AbstractDAO{
             statement.setInt(2, reservierungDTO.getAuto_id());
             statement.setTimestamp(3, reservierungDTO.getReservierungsdatum());
 
-            System.out.println(sql);//temp
 
             statement.executeUpdate();
             org.bonn.se.gui.window.ConfirmationWindow confWindow =  new org.bonn.se.gui.window.ConfirmationWindow("Auto wurde reserviert!");
@@ -56,12 +55,6 @@ public class ReservierungDAO extends AbstractDAO{
         ResultSet set = null;
 
         try {
-
-            System.out.println("select * \n" +
-                    "  from idrive.tab_reservierung\n" +
-                    " where  date_trunc('day', TIMESTAMP '"+reservierungDTO.getReservierungsdatum()+"')  =  date_trunc('day',reservierungsdatum)\n" +
-                    "   and "+reservierungDTO.getKundennummer()+"   = kundennummer\n"+
-                    "   and auto_id = "+reservierungDTO.getAuto_id());
 
             Statement statement = JDBCConnection.getInstance().getStatement();
             set = statement.executeQuery("select * \n" +

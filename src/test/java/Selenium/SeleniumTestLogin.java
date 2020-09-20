@@ -1,13 +1,11 @@
 package Selenium;
 
 import org.bonn.se.model.objects.entitites.User;
-import org.bonn.se.services.db.exception.DatabaseException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
 
 public class SeleniumTestLogin {
 
@@ -34,6 +32,9 @@ public class SeleniumTestLogin {
     }
 
 }
+
+
+
 
 
 
